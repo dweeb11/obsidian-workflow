@@ -96,4 +96,6 @@ The session's first write, before any work — an open unassigned ticket is what
 
 ## Note on this file
 
-This is repo infrastructure, not extracted vault content. It describes how agents work *on* this repo; it is not part of the vault workflow being shared. Whether `docs/agents/` ships to a cloner is a question for the extraction ticket.
+This is repo infrastructure, not extracted vault content. It describes how agents work *on* this repo; it is not part of the vault workflow being shared.
+
+It lives under `.github/` deliberately. The repo root *is* the vault root — a cloner opens this directory in Obsidian — and Obsidian ignores dot-directories entirely. So `.github/agents/` keeps this file reachable by agents and by git while leaving it invisible in the vault a cloner actually sees. Anything else that is about *this repo* rather than about *the vault* belongs here too, for the same reason. (Settled by the extraction ticket, which inherited the question from the skill-docs triage; it was previously at `docs/agents/issue-tracker.md`.)

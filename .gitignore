@@ -1,0 +1,19 @@
+# Per-machine Obsidian state (window layout, open files, graph view) — churn and merge conflicts
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/graph.json
+.obsidian/plugins/
+.obsidian/themes/
+.obsidian/snippets/
+
+# Local agent settings
+.claude/settings.local.json
+.claude/worktrees/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store

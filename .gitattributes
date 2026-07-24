@@ -1,0 +1,3 @@
+# Scripts must land with LF endings or the shebang breaks on Linux.
+*.sh text eol=lf
+*.py text eol=lf
