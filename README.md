@@ -26,7 +26,7 @@ The load policy matters about as much as the content. The maps are routers, not 
 ## First five minutes
 
 1. Clone it and open the folder as a vault in Obsidian (*Open folder as vault*). Trust the folder when prompted.
-2. Install the three community plugins it expects: Calendar, Dataview, and Notebook Navigator. The vault ships the plugin list (`.obsidian/community-plugins.json`) but not the plugin code, so Obsidian will prompt you. Dataview is the only real dependency — a few templates use `dataview` blocks that render as code until it's enabled.
+2. Install the three community plugins it expects: Calendar, Dataview, and Notebook Navigator. The vault ships the plugin list (`.obsidian/community-plugins.json`) but not the plugin code — Obsidian doesn't prompt for that, so go to Settings → Community plugins, turn off Restricted Mode, then Browse and install each by name. Dataview is the only real dependency — a few templates use `dataview` blocks that render as code until it's enabled.
 3. Fill in `Me.md`. It ships as a scaffold of headers and prompts with no content. Short and specific works better than long and tidy, and you can delete any section that isn't earning its keep. It's probably the highest-leverage file here, since it's what agents read to know how to talk to you.
 4. Check daily notes. They're already configured: new daily notes land at the vault root as `YYYY-MM-DD.md` and use `system/Templates/Daily Note.md`. Root-level is intentional, since the day's note is a working surface; closing the day archives it to `calendar/daily notes/YYYY/`.
 5. Sanity-check the plumbing:
