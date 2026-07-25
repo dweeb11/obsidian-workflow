@@ -19,6 +19,8 @@ So that's what this is. Four map files at the root, a folder of workflow docs, a
 - `Skills-Map.md` — an index of repeatable workflows, pointing at `system/skills/`.
 - `Me.md` — who you are and how you want to be worked with. Read only when a task touches your voice or preferences.
 
+If you want to see the workflows feeding each other rather than described one at a time, `system/example-first-week.md` walks an invented person through their first week — six of the eight workflows chaining, with every note quoted inside that one file so nothing lands in the empty folders. It's the only worked example here, and it's meant to be deleted once it's done its job.
+
 The load policy matters about as much as the content. The maps are routers, not a context dump, so an agent fixing a typo should end up reading almost nothing. This has been lots of back and forth to reduce token burn. Installing Obsidian CLI can also help with this.
 
 ## First five minutes
@@ -51,7 +53,7 @@ x/                  passive archive
 
 `Me.md` is empty for the same reason, though it's the one gap worth closing early.
 
-What is populated: `system/skills/` (eight workflow docs), `system/Templates/` (seven templates), `system/scripts/` (six scripts plus tests), and `system/memory/tag-reference.md`.
+What is populated: `system/skills/` (eight workflow docs), `system/Templates/` (seven templates), `system/scripts/` (six scripts plus tests), `system/memory/tag-reference.md`, and the worked example above.
 
 ## The scripts
 
