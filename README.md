@@ -8,7 +8,7 @@ It's a snapshot of my own vault's `system/` layer with all of my notes removed. 
 
 ## Why I've worked on this
 
-First of all, this is shamelessly lifted from Nick Milo's suggestions.  I heavily agree with his idea to keep your notes vault agnostic of a particular tool or agent.  Reference videos:  <https://www.youtube.com/watch?v=rRa9td4oe7k>
+First of all, this is shamelessly lifted from Nick Milo's suggestions. I heavily agree with his idea to keep your notes vault agnostic of a particular tool or agent. Reference videos: <https://www.youtube.com/watch?v=rRa9td4oe7k>
 
 If you point an AI agent at a personal vault with no instructions, it tends to invent its own conventions each session: new folders, new tag schemes, a dashboard nobody asked for, notes rewritten into corporate prose. Writing your conventions down in files the agent reads first helps more than picking a smarter agent.
 
@@ -19,7 +19,7 @@ So that's what this is. Four map files at the root, a folder of workflow docs, a
 - `Skills-Map.md` — an index of repeatable workflows, pointing at `system/skills/`.
 - `Me.md` — who you are and how you want to be worked with. Read only when a task touches your voice or preferences.
 
-The load policy matters about as much as the content. The maps are routers, not a context dump, so an agent fixing a typo should end up reading almost nothing.  This has been lots of back and forth to reduce token burn.  Installing Obsidian CLI can also help with this.
+The load policy matters about as much as the content. The maps are routers, not a context dump, so an agent fixing a typo should end up reading almost nothing. This has been lots of back and forth to reduce token burn. Installing Obsidian CLI can also help with this.
 
 ## First five minutes
 
@@ -28,13 +28,13 @@ The load policy matters about as much as the content. The maps are routers, not 
 3. Fill in `Me.md`. It ships as a scaffold of headers and prompts with no content. Short and specific works better than long and tidy, and you can delete any section that isn't earning its keep. It's probably the highest-leverage file here, since it's what agents read to know how to talk to you.
 4. Check daily notes. They're already configured: new daily notes land at the vault root as `YYYY-MM-DD.md` and use `system/Templates/Daily Note.md`. Root-level is intentional, since the day's note is a working surface; closing the day archives it to `calendar/daily notes/YYYY/`.
 5. Sanity-check the plumbing:
-   ```bash
-   python3 system/scripts/context-router.py default   # macOS / Linux
+   ```
    python system\scripts\context-router.py default    # Windows
+   python3 system/scripts/context-router.py default   # macOS / Linux
    ```
    That prints the context bundle an agent gets by default. If you see the Agent Quickstart section from `Vault-Map.md`, everything is wired up.
 
-Then point your agent at the vault and ask it to do something small. `AGENTS.md` is what it should find first.  Honestly you could just point your agent at the repo and tell it to read the README and you're probably set.
+Then point your agent at the vault and ask it to do something small. `AGENTS.md` is what it should find first. Honestly you could just point your agent at the repo and tell it to read the README and you're probably set.
 
 ## What's deliberately empty
 
@@ -66,16 +66,15 @@ Six portable scripts under `system/scripts/`. All of them are Python — stock p
 | `breadcrumb-sweep.py` | Finds routing breadcrumbs left behind in notes. |
 | `lint-note-metadata.py` | Checks frontmatter consistency. |
 
-Tests, with no third-party runner:
+Tests, with no third-party runner (`python` on Windows, `python3` on macOS/Linux — the python.org installer doesn't give you `python3`):
 
-```bash
-cd system/scripts && python3 -m unittest discover -s . -p 'test_*.py'
+```
+cd system/scripts
+python -m unittest discover -s . -p "test_*.py"
 # Ran 27 tests — OK
 ```
 
-On Windows that's `python -m unittest discover -s . -p "test_*.py"` — the python.org installer gives you `python` and `py`, not `python3`.
-
-One thing worth saying in plain prose rather than leaving to the all-caps disclaimer in `LICENSE`: scripts like these can write to and delete files inside the vault you point them at. Worth reading one before running it against a vault you care about, and worth having a backup or a commit to get back to. As shipped, three of them are read-only detectors and the other three only print and route, but that's true of this version specifically.
+One thing worth saying in plain prose rather than leaving to the all-caps disclaimer in `LICENSE`: scripts like these can write to and delete files inside the vault you point them at. Worth reading one before running it against a vault you care about, and worth having a backup or a commit to get back to. As shipped, none of them touch your notes: three are read-only detectors, two only print, and `session-end-route.py` writes one thing — a timestamp file at `~/.claude/.session-route-last-block`, outside the vault, so it can't prompt you twice in ten minutes. But that's true of this version specifically.
 
 ## Sending something back
 
