@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -49,7 +50,7 @@ def normalize_item(item: str) -> str:
 def collect_carry_forward_lines(paths: list[Path]) -> Counter[str]:
     counter: Counter[str] = Counter()
     for path in paths:
-        block = carry_forward_block(path.read_text())
+        block = carry_forward_block(path.read_text(encoding="utf-8"))
         for match in CHECKBOX_LINE.finditer(block):
             item = normalize_item(match.group(1))
             if item:
@@ -65,6 +66,9 @@ def render_decay(candidates: list[tuple[str, int]], days: int) -> str:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--vault", required=True, type=Path)
     parser.add_argument("--days", type=int, default=7)

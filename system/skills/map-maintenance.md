@@ -9,7 +9,7 @@ Keep `AGENTS.md`, `Vault-Map.md`, `Skills-Map.md`, `Me.md`, and related indexes 
 ## Read First
 
 1. `AGENTS.md`
-2. `system/scripts/context-router.sh map`
+2. `system/scripts/context-router.py map`
 3. `Vault-Map.md`
 4. `Skills-Map.md`
 5. `Me.md` when preferences, assistant behavior, boundaries, or voice are involved
@@ -73,6 +73,6 @@ Before finishing:
 - search for contradicted old wording
 - confirm new skill links resolve by path/title search
 - ensure maps do not duplicate detailed procedures better kept in `system/skills/`
-- run `system/scripts/context-router.sh default` and the task profile you changed
+- run `system/scripts/context-router.py default` and the task profile you changed
 - commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

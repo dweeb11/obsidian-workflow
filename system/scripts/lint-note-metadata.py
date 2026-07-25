@@ -85,6 +85,9 @@ def lint_file(path: Path) -> list[str]:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     parser = argparse.ArgumentParser(
         description="Report Obsidian last_touched and linear_issue metadata problems."
     )

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Tests for session-end-route.sh."""
+"""Tests for session-end-route.py."""
 from __future__ import annotations
 
 import os
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-SCRIPT = Path(__file__).with_name("session-end-route.sh")
+SCRIPT = Path(__file__).with_name("session-end-route.py")
 
 
 def run(env_extra: dict[str, object] | None = None) -> subprocess.CompletedProcess[str]:
@@ -16,7 +17,7 @@ def run(env_extra: dict[str, object] | None = None) -> subprocess.CompletedProce
     if env_extra:
         env.update({k: str(v) for k, v in env_extra.items()})
     return subprocess.run(
-        ["bash", str(SCRIPT)],
+        [sys.executable, str(SCRIPT)],
         env=env,
         capture_output=True,
         text=True,

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Tests for context-router.sh."""
+"""Tests for context-router.py."""
 from __future__ import annotations
 
 import os
 import subprocess
+import sys
 import unittest
 from pathlib import Path
 
-SCRIPT = Path(__file__).with_name("context-router.sh")
+SCRIPT = Path(__file__).with_name("context-router.py")
 VAULT_ROOT = SCRIPT.parents[2]
 
 
@@ -15,7 +16,7 @@ def run(profile: str) -> subprocess.CompletedProcess[str]:
     env = os.environ.copy()
     env["VAULT_CONTEXT_ROOT"] = str(VAULT_ROOT)
     return subprocess.run(
-        ["bash", str(SCRIPT), profile],
+        [sys.executable, str(SCRIPT), profile],
         cwd=VAULT_ROOT,
         env=env,
         capture_output=True,

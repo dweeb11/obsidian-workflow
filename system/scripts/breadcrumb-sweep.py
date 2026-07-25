@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import sys
 from pathlib import Path
 
 WIKILINK = re.compile(r"\[\[(.+?)\]\]")
@@ -51,6 +52,9 @@ def display_index(index: Path, vault: Path) -> str:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--index", required=True, type=Path)
     parser.add_argument("--vault", required=True, type=Path)
@@ -60,7 +64,7 @@ def main() -> int:
         print(f"ERROR: index not found: {args.index}")
         return 1
 
-    text = args.index.read_text()
+    text = args.index.read_text(encoding="utf-8")
     missing: list[str] = []
     seen: set[str] = set()
     for match in WIKILINK.finditer(text):

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 import tempfile
 import textwrap
 import unittest
@@ -13,7 +14,7 @@ SCRIPT = Path(__file__).with_name("lint-note-metadata.py")
 
 def run(target: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        ["python3", str(SCRIPT), str(target)],
+        [sys.executable, str(SCRIPT), str(target)],
         capture_output=True,
         text=True,
         timeout=10,

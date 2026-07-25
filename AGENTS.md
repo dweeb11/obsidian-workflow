@@ -8,9 +8,11 @@ This vault uses portable map files. Load only what is relevant. The maps are rou
 
 Optional low-token shortcut when shell access is available:
 
-```bash
-system/scripts/context-router.sh <profile>
 ```
+python3 system/scripts/context-router.py <profile>
+```
+
+(`python` instead of `python3` on Windows.)
 
 Profiles include `default`, `daily`, `intake`, `synthesis`, `index`, `voice`, `operational`, and `map`. The script is convenience only; the vault files are the source of truth. If the script is unavailable or conflicts with the map/workflow files, follow the rules below manually.
 
@@ -33,13 +35,13 @@ Read when the task involves a repeatable workflow or process:
 
 Examples:
 
-- Fix a typo in one note → `context-router.sh default`, then inspect the target note
-- Draft something in the owner's voice → `context-router.sh voice`, then read [[Me]]
-- Process a daily note → read [[system/skills/daily-capture|Daily Capture / Close-Day Workflow]] and `system/Templates/Daily Note.md`; `context-router.sh daily` is only an optional shortcut
-- Process intake or clippings → `context-router.sh intake`, then read `system/skills/intake-extraction.md`
-- Create/update a synthesis note or audit → `context-router.sh synthesis`, then read `system/skills/vault-synthesis.md`
-- Create/update a folder `_index.md` → `context-router.sh index`, then read `system/skills/wiki-index.md`
-- Update the maps themselves → `context-router.sh map`, then read the affected maps/skills
+- Fix a typo in one note → `context-router.py default`, then inspect the target note
+- Draft something in the owner's voice → `context-router.py voice`, then read [[Me]]
+- Process a daily note → read [[system/skills/daily-capture|Daily Capture / Close-Day Workflow]] and `system/Templates/Daily Note.md`; `context-router.py daily` is only an optional shortcut
+- Process intake or clippings → `context-router.py intake`, then read `system/skills/intake-extraction.md`
+- Create/update a synthesis note or audit → `context-router.py synthesis`, then read `system/skills/vault-synthesis.md`
+- Create/update a folder `_index.md` → `context-router.py index`, then read `system/skills/wiki-index.md`
+- Update the maps themselves → `context-router.py map`, then read the affected maps/skills
 
 ## What This Repository Is
 
@@ -64,9 +66,9 @@ Session lifecycle behavior lives in portable scripts under `system/scripts/`. To
 At session start, load context from whichever surfaces apply:
 
 - **Project state:** if the current repo has `PROJECT_STATE.md`, read it before digging through git history or project docs.
-- **Vault:** when working in this vault, consult this file, `system/scripts/context-router.sh default`, and any relevant `_index.md` or effort dashboard.
+- **Vault:** when working in this vault, consult this file, `system/scripts/context-router.py default`, and any relevant `_index.md` or effort dashboard.
 
-The canonical implementation is `system/scripts/session-start-context.sh`.
+The canonical implementation is `system/scripts/session-start-context.py`.
 
 Durable closeout should happen at the moment work crystallizes, not when someone remembers to run a command before quitting. Use this trigger order:
 
@@ -79,7 +81,7 @@ For `## Handoff / Memory Routing`, answer:
 - Vault keeper? yes/no — why; file the durable note into the vault when yes.
 - Vault synthesis candidate? yes/no — why; flag it or add an approved vault breadcrumb/note when yes.
 
-The canonical closeout prompt implementation is `system/scripts/session-end-route.sh`. It stays silent below the configured threshold and surfaces routing prompts above it as a backup.
+The canonical closeout prompt implementation is `system/scripts/session-end-route.py`. It stays silent below the configured threshold and surfaces routing prompts above it as a backup.
 
 Kill switch: set `SESSION_ROUTE_DISABLE=1` to disable the close-route prompt.
 

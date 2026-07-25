@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -12,7 +13,7 @@ SCRIPT = Path(__file__).with_name("breadcrumb-sweep.py")
 
 def run(index_path: Path, vault: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        ["python3", str(SCRIPT), "--index", str(index_path), "--vault", str(vault)],
+        [sys.executable, str(SCRIPT), "--index", str(index_path), "--vault", str(vault)],
         capture_output=True,
         text=True,
         timeout=10,

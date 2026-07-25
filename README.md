@@ -29,7 +29,8 @@ The load policy matters about as much as the content. The maps are routers, not 
 4. Check daily notes. They're already configured: new daily notes land at the vault root as `YYYY-MM-DD.md` and use `system/Templates/Daily Note.md`. Root-level is intentional, since the day's note is a working surface; closing the day archives it to `calendar/daily notes/YYYY/`.
 5. Sanity-check the plumbing:
    ```bash
-   ./system/scripts/context-router.sh default
+   python3 system/scripts/context-router.py default   # macOS / Linux
+   python system\scripts\context-router.py default    # Windows
    ```
    That prints the context bundle an agent gets by default. If you see the Agent Quickstart section from `Vault-Map.md`, everything is wired up.
 
@@ -54,13 +55,13 @@ What is populated: `system/skills/` (eight workflow docs), `system/Templates/` (
 
 ## The scripts
 
-Six portable scripts under `system/scripts/`. They run on stock macOS or Linux — bash 3.2, python 3.9, nothing to install — and they locate the vault from their own path, so they work wherever you cloned to.
+Six portable scripts under `system/scripts/`. All of them are Python — stock python 3.9, nothing to install, no shell — so they run the same on macOS, Linux, and Windows, and they locate the vault from their own path, so they work wherever you cloned to.
 
 | Script | What it does |
 |---|---|
-| `context-router.sh <profile>` | Prints a task-shaped context bundle. Profiles: `default`, `daily`, `intake`, `synthesis`, `index`, `voice`, `operational`, `map`. |
-| `session-start-context.sh` | Session-start loader; silent when there's nothing useful to say. |
-| `session-end-route.sh` | Claude Code Stop hook. Blocks once at session end to prompt durable memory routing. |
+| `context-router.py <profile>` | Prints a task-shaped context bundle. Profiles: `default`, `daily`, `intake`, `synthesis`, `index`, `voice`, `operational`, `map`. |
+| `session-start-context.py` | Session-start loader; silent when there's nothing useful to say. |
+| `session-end-route.py` | Claude Code Stop hook. Blocks once at session end to prompt durable memory routing. |
 | `daily-intelligence-pass.py` | Read-only. Flags tasks you keep carrying forward across daily notes. |
 | `breadcrumb-sweep.py` | Finds routing breadcrumbs left behind in notes. |
 | `lint-note-metadata.py` | Checks frontmatter consistency. |
@@ -72,7 +73,9 @@ cd system/scripts && python3 -m unittest discover -s . -p 'test_*.py'
 # Ran 27 tests — OK
 ```
 
-One thing worth saying in plain prose rather than leaving to the all-caps disclaimer in `LICENSE`: scripts like these can write to and delete files inside the vault you point them at. Worth reading one before running it against a vault you care about, and worth having a backup or a commit to get back to. As shipped, the three Python scripts are read-only detectors and the shell scripts only print and route, but that's true of this version specifically.
+On Windows that's `python -m unittest discover -s . -p "test_*.py"` — the python.org installer gives you `python` and `py`, not `python3`.
+
+One thing worth saying in plain prose rather than leaving to the all-caps disclaimer in `LICENSE`: scripts like these can write to and delete files inside the vault you point them at. Worth reading one before running it against a vault you care about, and worth having a backup or a commit to get back to. As shipped, three of them are read-only detectors and the other three only print and route, but that's true of this version specifically.
 
 ## Sending something back
 

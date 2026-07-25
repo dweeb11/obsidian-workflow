@@ -18,7 +18,7 @@ Use this section as the default vault context. Read deeper sections only when th
 - New notes follow ACE: `+/clippings/` for live general intake, `atlas/` for durable knowledge/people/sources, `calendar/` for dated records, `efforts/` for active work, `system/` for automation infrastructure, and `x/` for passive archive/support material.
 - Read [[Me]] only when the task involves the vault owner's voice, preferences, identity, priorities, or assistant behavior.
 - Read [[Skills-Map]] as a workflow index; read the linked `system/skills/*.md` note only for the workflow being run.
-- Prefer `system/scripts/context-router.sh <profile>` for task-shaped context bundles.
+- Prefer `system/scripts/context-router.py <profile>` for task-shaped context bundles.
 - After modifying vault files, commit from the vault root.
 
 ## What This Vault Is
@@ -178,7 +178,7 @@ Durable notes may include images, screenshots, diagrams, maps, or generated visu
 
 When an AI works in this vault:
 
-1. Start with `AGENTS.md` and `system/scripts/context-router.sh <profile>` whenever possible.
+1. Start with `AGENTS.md` and `system/scripts/context-router.py <profile>` whenever possible.
 2. Use `## Agent Quickstart` as the default Vault-Map context; read deeper sections only when they are relevant.
 3. Read [[Me]] only when the task involves the owner's preferences, identity, voice, priorities, or assistant behavior.
 4. For operational context, prefer current source notes: `Me.md` for the owner and their preferences, `atlas/people/` for people, `efforts/` for active work, `Vault-Map.md` / `Skills-Map.md` for process, and `system/memory/tag-reference.md` only for tags.

@@ -15,7 +15,7 @@ This file is the index. When a process gets large, move the full procedure to it
 
 ## Load Policy
 
-Use this file as a registry, not a context dump. For common tasks, prefer `system/scripts/context-router.sh <profile>` first.
+Use this file as a registry, not a context dump. For common tasks, prefer `system/scripts/context-router.py <profile>` first.
 
 - Small note edits: do not read this file unless a repeatable workflow is involved.
 - Workflow tasks: read only the matching entry here, then read the linked workflow note under `system/skills/` when one exists.
@@ -200,8 +200,20 @@ Use this file as a registry, not a context dump. For common tasks, prefer `syste
 When Obsidian is running, the CLI is available with:
 
 ```bash
+# macOS
 PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS" obsidian <command>
+
+# Linux (AppImage or package install; adjust to where Obsidian landed)
+PATH="$PATH:/opt/Obsidian" obsidian <command>
 ```
+
+```powershell
+# Windows (PowerShell)
+$env:PATH += ";$env:LOCALAPPDATA\Obsidian"
+obsidian <command>
+```
+
+If `obsidian` is already on your `PATH`, drop the prefix and just call it.
 
 Prefer the Obsidian CLI for:
 

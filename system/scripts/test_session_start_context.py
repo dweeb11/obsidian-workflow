@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Tests for session-start-context.sh."""
+"""Tests for session-start-context.py."""
 from __future__ import annotations
 
 import os
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-SCRIPT = Path(__file__).with_name("session-start-context.sh")
+SCRIPT = Path(__file__).with_name("session-start-context.py")
 VAULT_ROOT = SCRIPT.parents[2]
 
 
@@ -17,7 +18,7 @@ def run(cwd: Path, env_extra: dict[str, str] | None = None) -> subprocess.Comple
     if env_extra:
         env.update(env_extra)
     return subprocess.run(
-        ["bash", str(SCRIPT)],
+        [sys.executable, str(SCRIPT)],
         cwd=cwd,
         env=env,
         capture_output=True,

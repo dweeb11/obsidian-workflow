@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 import tempfile
 import textwrap
 import unittest
@@ -13,7 +14,7 @@ SCRIPT = Path(__file__).with_name("daily-intelligence-pass.py")
 
 def run(vault: Path, days: int = 7) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        ["python3", str(SCRIPT), "--vault", str(vault), "--days", str(days)],
+        [sys.executable, str(SCRIPT), "--vault", str(vault), "--days", str(days)],
         capture_output=True,
         text=True,
         timeout=15,
