@@ -70,9 +70,11 @@ Eight portable scripts under `system/scripts/`. All of them are Python — stock
 | `breadcrumb-sweep.py` | Finds routing breadcrumbs left behind in notes. |
 | `lint-note-metadata.py` | Checks frontmatter consistency. |
 
-### Hooks on Windows
+### Hooks
 
-`.claude/settings.json` wires three of these as Claude Code hooks, and the commands say `python3` — correct on macOS and Linux, but the python.org installer for Windows gives you `python` instead. There is no single spelling that works on both, so on Windows change `python3` to `python` in that file. Until you do, session-start context, drift detection, and closeout routing all fail silently before their scripts run.
+`.claude/settings.json` wires three of these as Claude Code hooks. The commands name the script directly, with no `python3` or `python` in front — the shebang selects the interpreter on macOS and Linux, and the `.py` file association does it on Windows, where the python.org installer gives you `python` rather than `python3`. Naming either one would have broken the other platform.
+
+Two things this depends on, both covered by tests: the scripts keep their shebang, and they stay mode `755` in git so a clone can execute them.
 
 Tests, with no third-party runner (`python` on Windows, `python3` on macOS/Linux — the python.org installer doesn't give you `python3`):
 

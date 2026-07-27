@@ -276,3 +276,51 @@ class TestStopHookReadsSessionMetrics(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestHooksAreInterpreterAgnostic(unittest.TestCase):
+    """Hooks hard-coded `python3`, which the Windows python.org installer
+    does not provide. Scripts are invoked directly instead: the shebang picks
+    the interpreter on Unix, the .py file association does it on Windows."""
+
+    def _settings(self) -> dict:
+        return json.loads((ROOT / ".claude" / "settings.json").read_text(encoding="utf-8"))
+
+    def _commands(self):
+        out = []
+        for event in self._settings()["hooks"].values():
+            for group in event:
+                for hook in group.get("hooks", []):
+                    out.append(hook["command"])
+        return out
+
+    def test_no_hook_hardcodes_an_interpreter(self):
+        for cmd in self._commands():
+            self.assertNotIn("python3", cmd, cmd)
+            self.assertNotRegex(cmd, r"(^|\s)python(\s|\")", cmd)
+
+    def test_every_hook_script_is_executable_and_has_a_shebang(self):
+        for cmd in self._commands():
+            rel = cmd.split('"')[1].replace("$CLAUDE_PROJECT_DIR/", "")
+            path = ROOT / rel
+            self.assertTrue(path.exists(), rel)
+            self.assertTrue(
+                path.read_text(encoding="utf-8").startswith("#!"),
+                "%s needs a shebang to run without an interpreter prefix" % rel,
+            )
+            self.assertTrue(os.access(path, os.X_OK), "%s is not executable" % rel)
+
+    def test_exec_bit_is_recorded_in_git(self):
+        """A clone must get the exec bit, or Unix invocation breaks."""
+        for cmd in self._commands():
+            rel = cmd.split('"')[1].replace("$CLAUDE_PROJECT_DIR/", "")
+            out = subprocess.run(
+                ["git", "ls-files", "-s", rel], cwd=ROOT,
+                capture_output=True, text=True, timeout=30,
+            )
+            if not out.stdout.strip():
+                continue
+            self.assertTrue(
+                out.stdout.startswith("100755"),
+                "%s is not mode 100755 in git: %s" % (rel, out.stdout.strip()),
+            )
