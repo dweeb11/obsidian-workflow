@@ -140,6 +140,7 @@ Rules:
    - **People:** for a person mentioned with substance, append the day's relevant content as a dated `### YYYY-MM-DD` entry under that person's `## Notes` log in `atlas/people/[Name].md`; bump the page's `last_contact:` frontmatter to the note's date; create the page from `system/Templates/Person CRM.md` if it doesn't exist; tag per the gate answer; link the daily note to the person with `[[Name]]`. See [[system/memory/tag-reference|Tag Reference]] for the namespaces in use. (Frontmatter is agent-owned — the owner does not hand-edit it.) Do not create a page for a one-off name mentioned in passing with no context.
    - **Meetings:** for a substantive meeting (has topics or notes), create `calendar/meetings/YYYY-MM-DD - [Meeting Name].md` with date, attendees, topics, notes/decisions, action items; link people with `[[wikilinks]]`. Drop cancelled/skipped or empty-bodied meeting stubs — don't keep noise.
    - **Matured thread:** a *single* idea in `## Random Thoughts` or `## ToDo` that has clearly become robust enough today → promote it to a permanent home — `atlas/<subject>/` (durable knowledge) or `efforts/<area>/` (active work) — and backlink. Per-day, bounded judgment only. Do **not** run a week-scan here — that belongs to Weekly Review Lens + Vault Synthesis.
+     - **Project-implying thoughts are excluded from this rule**, however robust they got today — they take the project-seed path below instead. Robustness is not what promotes an idea to a project page; the owner starting work on it is. Without this carve-out both rules fire on the same thought and contradict each other, since one would create the page the other forbids.
    - **Project seeds:** a thought in `## Random Thoughts` that *implies a project* — something the owner wants to build, ship, or package — is appended as a new `## Section` to `efforts/Project Ideas.md` in the owner's own wording, closing with `*Captured YYYY-MM-DD — [[<daily note>]]*`. Unlike the matured-thread rule this is **not** bounded to one per day, and it does **not** require the idea to be robust yet; naming it once is enough. Do not create a project page, folder, or effort for a seed — graduation to its own page happens when the owner actually starts working on it, not at capture. Distinguish from tasks: a chore or a research errand is not a project seed and belongs in the next day's `## ToDo`.
 5. **Append the Daily Cleanup Routing appendix** to the preserved raw note (shape below).
 6. **Archive-move** the processed note from vault root → `calendar/daily notes/YYYY/YYYY-MM-DD.md`. Do not delete the root original until the archive write is confirmed.
@@ -183,7 +184,7 @@ Original daily capture preserved above. Routed/triaged items below so the raw no
 | Context scan → carry-forward actions + idea seeds + vault energy | Setup (here) |
 | Person mapping + `## Notes` log append, page creation, tagging, linking | Close (here) |
 | Substantive meeting → `calendar/meetings/` note | Close (here) |
-| A single thought/task that clearly matured today → promote | Close (here) |
+| A single **non-project** thought/task that clearly matured today → promote | Close (here) |
 | A thought that implies a project → seed to `efforts/Project Ideas.md` | Close (here) |
 | A seed becoming a real project page/folder | **The owner, when they start the work** (not an agent, not at capture) |
 | Week-scan "what's been shaping" → candidate extractions → synthesis | **Weekly Review Lens + Vault Synthesis** (not here) |
@@ -214,7 +215,7 @@ Original daily capture preserved above. Routed/triaged items below so the raw no
 - [ ] The raw note is preserved verbatim above the appendix (enriched with links/tags, never flattened).
 - [ ] Each person mentioned with substance has a dated `### YYYY-MM-DD` entry under their `atlas/people/[Name].md` `## Notes` log, `last_contact` bumped, page created if missing, tagged, and `[[linked]]` from the daily note.
 - [ ] Each substantive meeting has a note in `calendar/meetings/`; cancelled/empty meetings were dropped.
-- [ ] Any single matured thought/task was promoted to `atlas/<subject>/` or `efforts/<area>/` and backlinked (or none qualified).
+- [ ] Any single matured thought/task was promoted to `atlas/<subject>/` or `efforts/<area>/` and backlinked (or none qualified) — and no project-implying thought was promoted this way, however robust, since those take the project-seed path.
 - [ ] Every project-implying thought in `## Random Thoughts` was seeded to `efforts/Project Ideas.md` with a capture date and daily-note backlink; no project page or folder was created for a seed; chores/research errands went to the next day's `## ToDo` instead.
 - [ ] The `## Daily Cleanup Routing` appendix is present and filled; on an unattended run, deferred judgment calls are parked under `### Needs Review` (not guessed).
 - [ ] The note now lives at `calendar/daily notes/YYYY/YYYY-MM-DD.md` and the root original is gone.
