@@ -1,0 +1,20 @@
+---
+description: "Use when today's daily note in the vault root needs to be closed out -- processed, routed to permanent homes, and archived."
+alwaysApply: false
+---
+
+<!--
+GENERATED FILE -- do not edit by hand.
+Source: system/skills/registry.json
+Regenerate: python3 system/scripts/generate-adapters.py
+-->
+
+# Close Day
+
+Non-authoritative adapter -- no workflow logic lives here. Read the contract:
+
+- `system/skills/daily-capture.md`
+- `system/Templates/Daily Note.md`
+
+Perform the **Close** operation in that contract exactly as written, then self-verify against its acceptance
+checklist before declaring the work done.

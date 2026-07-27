@@ -1,0 +1,19 @@
+---
+description: "Use this when the owner wants an AI second pass over a week, not an AI-authored weekly digest."
+alwaysApply: false
+---
+
+<!--
+GENERATED FILE -- do not edit by hand.
+Source: system/skills/registry.json
+Regenerate: python3 system/scripts/generate-adapters.py
+-->
+
+# Weekly Review Lens
+
+Non-authoritative adapter -- no workflow logic lives here. Read the contract:
+
+- `system/skills/weekly-review-lens.md`
+
+Perform that contract exactly as written, then self-verify against its acceptance
+checklist before declaring the work done.

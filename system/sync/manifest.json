@@ -1,0 +1,68 @@
+{
+  "$comment": "Declares how each part of the vault relates to its counterpart vault. Read by system/scripts/sync-check.py. Three layer kinds: 'lockstep' files must be byte-identical and any difference is actionable; 'ported' files are EXPECTED to differ (sanitization) and are tracked with a three-way ledger so only genuine changes surface; 'local' files are never compared. Paths are glob patterns relative to the vault root.",
+  "version": 1,
+  "layers": {
+    "lockstep": {
+      "description": "Mechanism. Sterile by construction, must be identical in both vaults. Authored public-first and pulled into the private vault. Deliberately an explicit allowlist rather than a glob: the private vault carries many scripts that are private-only (Linear bridges, archivers, board reconciliation) and a glob over system/scripts/*.py would demand they be published. Mechanism is a small named set -- adding a file here is a decision to share it.",
+      "direction": "public->private",
+      "patterns": [
+        "system/scripts/context-router.py",
+        "system/scripts/session-start-context.py",
+        "system/scripts/session-end-route.py",
+        "system/scripts/breadcrumb-sweep.py",
+        "system/scripts/lint-note-metadata.py",
+        "system/scripts/daily-intelligence-pass.py",
+        "system/scripts/generate-adapters.py",
+        "system/scripts/sync-check.py",
+        "system/sync/manifest.json"
+      ]
+    },
+    "ported": {
+      "description": "Contract prose. Expected to differ because the public copy is sanitized. Authored private-first and hand-ported outward. Tracked three-way so only real changes flag.",
+      "direction": "private->public",
+      "patterns": [
+        "system/skills/*.md",
+        "system/skills/registry.json",
+        "system/Templates/*.md",
+        "AGENTS.md",
+        "Skills-Map.md",
+        "Vault-Map.md"
+      ]
+    },
+    "local": {
+      "description": "Never compared. Notes, identity, generated adapters (each vault regenerates its own from its own registry), and per-machine config.",
+      "patterns": [
+        "Me.md",
+        "atlas/**",
+        "calendar/**",
+        "efforts/**",
+        "x/**",
+        "+/**",
+        ".claude/**",
+        ".cursor/**",
+        "system/logs/**",
+        "system/reports/**",
+        "system/memory/**"
+      ]
+    }
+  },
+  "sterility_denylist": {
+    "$comment": "Tokens that must never appear in the public repo. Used by test_sterile.py to block a careless port, and by sync-check.py to classify a diff hunk as sanitization-only (and therefore not a portable change worth flagging).",
+    "patterns": [
+      "(?i)\\bbot-top\\b",
+      "(?i)\\bcritterhaus\\b",
+      "(?i)\\bhermes\\b",
+      "(?i)\\bopenclaw\\b",
+      "(?i)\\bclank\\b",
+      "/Users/[a-z]",
+      "(?i)\\binsomniac\\b",
+      "(?i)\\brespawn\\b",
+      "(?i)\\bbungie\\b",
+      "(?i)\\bdad interview\\b",
+      "(?i)\\bnicole\\b",
+      "(?i)\\bdave\\b",
+      "\\b192\\.168\\.\\d+\\.\\d+\\b",
+      "(?i)\\blxc-\\d+\\b"
+    ]
+  }
+}
