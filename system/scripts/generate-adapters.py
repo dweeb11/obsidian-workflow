@@ -35,8 +35,12 @@ from typing import Any, Dict, List, Tuple
 VAULT_ROOT = Path(__file__).resolve().parents[2]
 REGISTRY_PATH = VAULT_ROOT / "system" / "skills" / "registry.json"
 
+# Sentinel that identifies a file as ours. Orphan cleanup keys off this so a
+# hand-authored tool skill sitting next to the generated ones is never deleted.
+GENERATED_MARKER = "GENERATED FILE -- do not edit by hand."
+
 GENERATED_BANNER = (
-    "GENERATED FILE -- do not edit by hand.\n"
+    GENERATED_MARKER + "\n"
     "Source: system/skills/registry.json\n"
     "Regenerate: python3 system/scripts/generate-adapters.py"
 )
@@ -267,8 +271,17 @@ def diff_against_disk(
             continue
         for path in sorted(base.glob(pattern)):
             rel = path.relative_to(root).as_posix()
-            if rel not in files:
-                orphaned.append(rel)
+            if rel in files:
+                continue
+            # Only ever reclaim files WE wrote. A vault is free to hand-author
+            # tool skills alongside the generated ones -- they have no registry
+            # entry by design, and deleting them would be data loss, not cleanup.
+            try:
+                if GENERATED_MARKER not in path.read_text(encoding="utf-8"):
+                    continue
+            except (OSError, UnicodeDecodeError):
+                continue
+            orphaned.append(rel)
     return stale, orphaned
 
 

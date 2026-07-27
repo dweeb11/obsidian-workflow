@@ -129,5 +129,74 @@ class TestRoutingChainStaysSufficient(unittest.TestCase):
         self.assertIn("Skills-Map", agents)
 
 
+
+
+class TestHandAuthoredSkillsSurvive(unittest.TestCase):
+    """Regression: orphan cleanup once deleted real hand-written vault skills.
+
+    A vault may keep its own tool skills next to the generated ones. They have
+    no registry entry by design. Reclaiming them is data loss, not cleanup, so
+    cleanup only touches files carrying the generated marker.
+    """
+
+    def _fixture(self):
+        import json
+        import tempfile
+
+        tmp = tempfile.mkdtemp()
+        root = Path(tmp)
+        (root / "system" / "skills").mkdir(parents=True)
+        (root / "system" / "skills" / "real.md").write_text("contract\n", encoding="utf-8")
+        (root / "system" / "skills" / "registry.json").write_text(
+            json.dumps(
+                {
+                    "entries": [
+                        {
+                            "slug": "real",
+                            "title": "Real",
+                            "description": "d",
+                            "contract": "system/skills/real.md",
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        return root
+
+    def test_hand_authored_skill_is_not_reported_as_orphan(self):
+        root = self._fixture()
+        handmade = root / ".claude" / "skills" / "handmade" / "SKILL.md"
+        handmade.parent.mkdir(parents=True)
+        handmade.write_text(
+            "---\nname: handmade\ndescription: written by a person\n---\n", encoding="utf-8"
+        )
+        files = gen.build(gen.load_registry(root), root)
+        _, orphaned = gen.diff_against_disk(files, root)
+        self.assertEqual(orphaned, [])
+
+    def test_hand_authored_skill_survives_a_real_generate_run(self):
+        root = self._fixture()
+        handmade = root / ".claude" / "skills" / "handmade" / "SKILL.md"
+        handmade.parent.mkdir(parents=True)
+        handmade.write_text("---\nname: handmade\n---\nbody\n", encoding="utf-8")
+        gen.main(["--root", str(root)])
+        self.assertTrue(handmade.exists(), "generate deleted a hand-authored skill")
+        self.assertIn("body", handmade.read_text(encoding="utf-8"))
+
+    def test_stale_generated_adapter_is_still_reclaimed(self):
+        """The cleanup must still work for files we did write."""
+        root = self._fixture()
+        stale = root / ".claude" / "skills" / "removed-entry" / "SKILL.md"
+        stale.parent.mkdir(parents=True)
+        stale.write_text(
+            "---\nname: removed-entry\n---\n<!--\n%s\n-->\n" % gen.GENERATED_BANNER,
+            encoding="utf-8",
+        )
+        files = gen.build(gen.load_registry(root), root)
+        _, orphaned = gen.diff_against_disk(files, root)
+        self.assertIn(".claude/skills/removed-entry/SKILL.md", orphaned)
+
+
 if __name__ == "__main__":
     unittest.main()
