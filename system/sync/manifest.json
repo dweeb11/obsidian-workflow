@@ -41,7 +41,8 @@
         ".claude/**",
         ".cursor/**",
         "system/logs/**",
-        "system/reports/**"
+        "system/reports/**",
+        "system/memory/**"
       ]
     }
   },

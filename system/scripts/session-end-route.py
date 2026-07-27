@@ -31,6 +31,23 @@ REASON = (
     "nothing qualifies, say 'Nothing to route.' Then stop."
 )
 
+# A vault can override the routing instruction without forking this script.
+# WHERE durable memory goes is vault-specific -- one vault files to a remote
+# memory service, another just writes a note -- but the decision of WHETHER to
+# speak is identical everywhere. Keeping the message as vault-local data is what
+# lets this file stay byte-identical across paired vaults.
+OVERRIDE_RELATIVE_PATH = Path("memory") / "session-routing-message.md"
+
+
+def routing_reason() -> str:
+    """The override file's contents when a vault supplies one, else the default."""
+    override = Path(__file__).resolve().parents[1] / OVERRIDE_RELATIVE_PATH
+    try:
+        text = override.read_text(encoding="utf-8").strip()
+    except (OSError, UnicodeDecodeError):
+        return REASON
+    return text or REASON
+
 
 def home_dir() -> Path:
     """Honour HOME first so tests can isolate, then the Windows equivalent."""
@@ -86,7 +103,7 @@ def main() -> int:
     except OSError:
         pass
 
-    print(json.dumps({"decision": "block", "reason": REASON}))
+    print(json.dumps({"decision": "block", "reason": routing_reason()}))
     return 0
 
 

@@ -105,3 +105,55 @@ class SessionEndRouteTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestRoutingMessageOverride(unittest.TestCase):
+    """A vault must be able to change WHERE memory goes without forking the script."""
+
+    def test_default_message_when_no_override(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "ser", Path(__file__).with_name("session-end-route.py")
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        # This repo ships no override file.
+        self.assertEqual(mod.routing_reason(), mod.REASON)
+
+    def test_override_file_is_used_when_present(self):
+        import importlib.util
+        import tempfile
+        spec = importlib.util.spec_from_file_location(
+            "ser2", Path(__file__).with_name("session-end-route.py")
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        with tempfile.TemporaryDirectory() as tmp:
+            override = Path(tmp) / "memory" / "session-routing-message.md"
+            override.parent.mkdir(parents=True)
+            override.write_text("file it to the custom place\n", encoding="utf-8")
+            original = mod.__file__
+            try:
+                mod.__file__ = str(Path(tmp) / "scripts" / "session-end-route.py")
+                self.assertEqual(mod.routing_reason(), "file it to the custom place")
+            finally:
+                mod.__file__ = original
+
+    def test_empty_override_falls_back_to_default(self):
+        import importlib.util
+        import tempfile
+        spec = importlib.util.spec_from_file_location(
+            "ser3", Path(__file__).with_name("session-end-route.py")
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        with tempfile.TemporaryDirectory() as tmp:
+            override = Path(tmp) / "memory" / "session-routing-message.md"
+            override.parent.mkdir(parents=True)
+            override.write_text("   \n", encoding="utf-8")
+            original = mod.__file__
+            try:
+                mod.__file__ = str(Path(tmp) / "scripts" / "session-end-route.py")
+                self.assertEqual(mod.routing_reason(), mod.REASON)
+            finally:
+                mod.__file__ = original
