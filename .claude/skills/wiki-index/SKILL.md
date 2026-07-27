@@ -1,6 +1,6 @@
 ---
 name: wiki-index
-description: Use this when creating or updating `_index.md` pages for major vault folders.
+description: "Use this when creating or updating `_index.md` pages for major vault folders."
 ---
 
 <!--

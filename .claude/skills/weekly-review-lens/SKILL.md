@@ -1,6 +1,6 @@
 ---
 name: weekly-review-lens
-description: Use this when the owner wants an AI second pass over a week, not an AI-authored weekly digest.
+description: "Use this when the owner wants an AI second pass over a week, not an AI-authored weekly digest."
 ---
 
 <!--

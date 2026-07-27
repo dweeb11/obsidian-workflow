@@ -1,6 +1,6 @@
 ---
 name: map-maintenance
-description: Use this when the portable AI operating system changes: folder conventions, skill behavior, adapter instructions, assistant preferences, or stale workflow truth.
+description: "Use this when the portable AI operating system changes: folder conventions, skill behavior, adapter instructions, assistant preferences, or stale workflow truth."
 ---
 
 <!--

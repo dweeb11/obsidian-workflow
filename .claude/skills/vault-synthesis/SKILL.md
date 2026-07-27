@@ -1,6 +1,6 @@
 ---
 name: vault-synthesis
-description: Use this when turning raw notes, generated briefs, research dumps, audits, stale project material, or high-signal AI conversations into a durable Obsidian synthesis note.
+description: "Use this when turning raw notes, generated briefs, research dumps, audits, stale project material, or high-signal AI conversations into a durable Obsidian synthesis note."
 ---
 
 <!--

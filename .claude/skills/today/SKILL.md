@@ -1,6 +1,6 @@
 ---
 name: today
-description: Use to set up or refresh today's daily note in the vault root. Seeds the morning briefing, carries forward unchecked tasks, pulls qualifying calendar meetings, and generates the day's interview questions.
+description: "Use to set up or refresh today's daily note in the vault root. Seeds the morning briefing, carries forward unchecked tasks, pulls qualifying calendar meetings, and generates the day's interview questions."
 ---
 
 <!--

@@ -155,7 +155,9 @@ def evaluate(
             pub_hash, priv_hash = digest(public_path), digest(private_path)
 
             record = ledger.get(rel, {})
-            if record.get("pinned"):
+            # Pins are a ported-layer concept. Lockstep files must stay
+            # identical, so a pin there would silence the central invariant.
+            if record.get("pinned") and layer == "ported":
                 results.append(
                     (STATUS_PINNED, rel, record.get("reason", "pinned, no reason given"))
                 )
@@ -222,12 +224,25 @@ def evaluate(
     return results
 
 
+class CounterpartMisconfigured(Exception):
+    """A counterpart was configured but does not resolve to a directory."""
+
+
 def resolve_counterpart(state: Dict[str, Any]) -> Optional[Path]:
+    """None means intentionally unconfigured. A configured-but-bad path raises.
+
+    Collapsing the two was a silent-failure hole: a typo'd or unmounted path
+    looked exactly like a fresh clone, so the quiet session hook printed nothing
+    and cross-vault checking could stay disabled indefinitely -- the precise
+    failure this script exists to prevent.
+    """
     raw = os.environ.get("VAULT_COUNTERPART_ROOT") or state.get("counterpart_root")
     if not raw:
         return None
     path = Path(os.path.expanduser(raw))
-    return path if path.is_dir() else None
+    if not path.is_dir():
+        raise CounterpartMisconfigured(str(path))
+    return path
 
 
 def save_state(state: Dict[str, Any], path: Path = STATE_PATH) -> None:
@@ -258,23 +273,46 @@ def main(argv: List[str] = None) -> int:
     state.setdefault("files", {})
     public_is = state.get("this_vault_is", "public")
 
-    counterpart = resolve_counterpart(state)
+    # --pin only writes local state, so it must work before the counterpart is
+    # resolved; requiring one made pinning unreachable on a fresh clone.
+    if args.pin:
+        if not args.reason:
+            print("--pin requires --reason", file=sys.stderr)
+            return 2
+        layers = manifest.get("layers", {})
+        if classify_layer(args.pin, layers) == "lockstep":
+            print(
+                "refusing to pin a lockstep path: %s\n"
+                "Lockstep files must stay byte-identical; pinning one would "
+                "silence the invariant rather than resolve it." % args.pin,
+                file=sys.stderr,
+            )
+            return 2
+        state["files"].setdefault(args.pin, {})
+        state["files"][args.pin].update({"pinned": True, "reason": args.reason})
+        save_state(state, root / "system" / "sync" / "state.json")
+        print("pinned %s" % args.pin)
+        return 0
+
+    try:
+        counterpart = resolve_counterpart(state)
+    except CounterpartMisconfigured as exc:
+        # Always loud, even under --quiet-when-clean: a configured-but-broken
+        # path means drift checking is off, and silence is how it stays off.
+        print(
+            "sync-check: counterpart vault is configured but not found: %s\n"
+            "Fix VAULT_COUNTERPART_ROOT or state.json:counterpart_root, or unset "
+            "it deliberately to disable cross-vault checking." % exc,
+            file=sys.stderr,
+        )
+        return 2
+
     if counterpart is None:
         if not args.quiet_when_clean:
             print(
                 "no counterpart vault configured "
                 "(set VAULT_COUNTERPART_ROOT or state.json:counterpart_root) -- nothing to compare"
             )
-        return 0
-
-    if args.pin:
-        if not args.reason:
-            print("--pin requires --reason", file=sys.stderr)
-            return 2
-        state["files"].setdefault(args.pin, {})
-        state["files"][args.pin].update({"pinned": True, "reason": args.reason})
-        save_state(state, root / "system" / "sync" / "state.json")
-        print("pinned %s" % args.pin)
         return 0
 
     if args.accept:
@@ -296,8 +334,18 @@ def main(argv: List[str] = None) -> int:
 
     if args.pull:
         pulled = 0
+        layers = manifest.get("layers", {})
         for status, rel, _ in results:
-            if status != STATUS_LOCKSTEP_DRIFT:
+            # Byte-drift AND first-time population. A newly allowlisted
+            # mechanism file is absent privately, not different -- that is the
+            # initial-port case, and skipping it made --pull a no-op exactly
+            # when it was most needed.
+            if status == STATUS_MISSING:
+                if classify_layer(rel, layers) != "lockstep":
+                    continue
+                if not ((root if public_is == "public" else counterpart) / rel).is_file():
+                    continue
+            elif status != STATUS_LOCKSTEP_DRIFT:
                 continue
             src = (root if public_is == "public" else counterpart) / rel
             dst = (counterpart if public_is == "public" else root) / rel
@@ -309,13 +357,22 @@ def main(argv: List[str] = None) -> int:
         return 0
 
     actionable = [r for r in results if r[0] in ACTIONABLE]
+    # Informational rows still get printed. Computing a publication candidate
+    # and then filtering it out of the report made it invisible, so "nothing to
+    # migrate" could be printed while candidates were sitting there.
+    informational = [r for r in results if r[0] in (STATUS_PRIVATE_ONLY,)]
+
     if not actionable:
         if not args.quiet_when_clean:
             print("sync-check: %d tracked files, nothing to migrate" % len(results))
+            for status, rel, detail in sorted(informational):
+                print("  %-16s %-42s %s" % (status, rel, detail))
         return 0
 
     print("sync-check: %d file(s) need attention" % len(actionable))
     for status, rel, detail in sorted(actionable):
+        print("  %-16s %-42s %s" % (status, rel, detail))
+    for status, rel, detail in sorted(informational):
         print("  %-16s %-42s %s" % (status, rel, detail))
     print("\nReconcile a ported file with: sync-check.py --accept <path>")
     print("Take the public copy of a lockstep file with: sync-check.py --pull")

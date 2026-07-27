@@ -1,6 +1,6 @@
 ---
 name: rock-tumbler
-description: Use this to find and develop interesting ideas without taking authorship away from the owner. Pressure-tests an idea instead of rewriting it.
+description: "Use this to find and develop interesting ideas without taking authorship away from the owner. Pressure-tests an idea instead of rewriting it."
 ---
 
 <!--

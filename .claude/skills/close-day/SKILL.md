@@ -1,6 +1,6 @@
 ---
 name: close-day
-description: Use when today's daily note in the vault root needs to be closed out -- processed, routed to permanent homes, and archived.
+description: "Use when today's daily note in the vault root needs to be closed out -- processed, routed to permanent homes, and archived."
 ---
 
 <!--

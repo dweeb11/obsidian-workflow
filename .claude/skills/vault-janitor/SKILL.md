@@ -1,6 +1,6 @@
 ---
 name: vault-janitor
-description: Use this for maintenance passes that keep the vault legible without silently rewriting the owner's system.
+description: "Use this for maintenance passes that keep the vault legible without silently rewriting the owner's system."
 ---
 
 <!--

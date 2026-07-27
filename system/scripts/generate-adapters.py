@@ -98,6 +98,27 @@ def _reads_block(entry: Dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def yaml_scalar(value: str) -> str:
+    """Emit a string that is always a valid YAML scalar.
+
+    Descriptions are prose and routinely contain ': ', which makes a plain
+    scalar invalid -- a real registry entry reads "...system changes: folder
+    conventions...". Double-quote and escape rather than hope: a leading '[',
+    '{', '*', '&' or '#' would break differently again.
+    """
+    escaped = value.replace("\\", "\\\\").replace('"', '\\"')
+    return '"%s"' % escaped
+
+
+def md_table_cell(value: str) -> str:
+    """Escape pipes so wikilink aliases survive inside a Markdown table.
+
+    `[[path|alias]]` in a table cell reads as a column break; Obsidian needs
+    `[[path\\|alias]]`. The hand-written table this replaced escaped them.
+    """
+    return value.replace("|", "\\|")
+
+
 def _operation_clause(entry: Dict[str, Any]) -> str:
     operation = entry.get("operation")
     if operation:
@@ -141,7 +162,7 @@ If this adapter ever conflicts with the contract, follow the contract and report
 the drift -- the fix belongs in `system/skills/registry.json`, not here.
 """.format(
             slug=entry["slug"],
-            description=entry["description"],
+            description=yaml_scalar(entry["description"]),
             banner=GENERATED_BANNER,
             title=entry["title"],
             reads=_reads_block(entry),
@@ -173,7 +194,7 @@ Non-authoritative adapter -- no workflow logic lives here. Read the contract:
 Perform {operation} exactly as written, then self-verify against its acceptance
 checklist before declaring the work done.
 """.format(
-            description=entry["description"],
+            description=yaml_scalar(entry["description"]),
             banner=GENERATED_BANNER,
             title=entry["title"],
             reads=_reads_block(entry),
@@ -189,10 +210,12 @@ def _registry_table(entries: List[Dict[str, Any]]) -> str:
         "|---|---|---|---|",
     ]
     for entry in entries:
-        triggers = ", ".join('"%s"' % t for t in entry.get("triggers", [])) or "--"
+        triggers = md_table_cell(
+            ", ".join('"%s"' % t for t in entry.get("triggers", [])) or "--"
+        )
         contract = entry["contract"]
         stem = Path(contract).stem
-        link = "[[%s|%s]]" % (contract[: -len(".md")], stem)
+        link = md_table_cell("[[%s|%s]]" % (contract[: -len(".md")], stem))
         operation = entry.get("operation")
         title = entry["title"]
         if operation:
@@ -255,9 +278,20 @@ def build(
 
 
 def diff_against_disk(
-    files: Dict[str, str], root: Path = VAULT_ROOT
+    files: Dict[str, str],
+    root: Path = VAULT_ROOT,
+    orphan_reference: Dict[str, str] = None,
 ) -> Tuple[List[str], List[str]]:
-    """Return (missing_or_stale, orphaned) relative paths."""
+    """Return (missing_or_stale, orphaned) relative paths.
+
+    orphan_reference is the set a file must be absent from to count as an
+    orphan. It defaults to `files`, but callers running a single emitter must
+    pass the FULL build -- otherwise the emitters that did not run look like
+    orphans and their adapters get reported (and, with --prune, deleted).
+    """
+    if orphan_reference is None:
+        orphan_reference = files
+
     stale = []
     for rel, contents in sorted(files.items()):
         path = root / rel
@@ -271,7 +305,7 @@ def diff_against_disk(
             continue
         for path in sorted(base.glob(pattern)):
             rel = path.relative_to(root).as_posix()
-            if rel in files:
+            if rel in orphan_reference:
                 continue
             # Only ever reclaim files WE wrote. A vault is free to hand-author
             # tool skills alongside the generated ones -- they have no registry
@@ -298,6 +332,15 @@ def main(argv: List[str] = None) -> int:
         help="Run a single emitter instead of all of them.",
     )
     parser.add_argument(
+        "--prune",
+        action="store_true",
+        help=(
+            "Delete generated adapters that no longer have a registry entry. "
+            "Off by default: writing is safe, deleting is not, and this script "
+            "has twice been in a position to remove files it should not have."
+        ),
+    )
+    parser.add_argument(
         "--root",
         default=str(VAULT_ROOT),
         help="Vault root to operate on (default: the vault this script lives in).",
@@ -312,7 +355,12 @@ def main(argv: List[str] = None) -> int:
         return 2
 
     files = build(entries, root, args.emitter)
-    stale, orphaned = diff_against_disk(files, root)
+
+    # Orphan detection is only meaningful against the COMPLETE registry output.
+    # Under --emitter the map holds one emitter's files, so every other emitter's
+    # adapters would look unclaimed. Always diff against the full build.
+    full = build(entries, root) if args.emitter else files
+    stale, orphaned = diff_against_disk(files, root, orphan_reference=full)
 
     if args.check:
         if not stale and not orphaned:
@@ -321,7 +369,7 @@ def main(argv: List[str] = None) -> int:
         for rel in stale:
             print("STALE    %s" % rel)
         for rel in orphaned:
-            print("ORPHANED %s  (no registry entry -- delete it)" % rel)
+            print("ORPHANED %s  (no registry entry -- remove with --prune)" % rel)
         print(
             "\nRun: python3 system/scripts/generate-adapters.py",
             file=sys.stderr,
@@ -332,9 +380,15 @@ def main(argv: List[str] = None) -> int:
         path = root / rel
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(contents, encoding="utf-8")
-    for rel in orphaned:
-        (root / rel).unlink()
-        print("removed orphan %s" % rel)
+
+    if orphaned and not args.prune:
+        for rel in orphaned:
+            print("orphan (not removed; use --prune) %s" % rel)
+    elif orphaned:
+        for rel in orphaned:
+            (root / rel).unlink()
+            print("pruned %s" % rel)
+
     print("wrote %d adapter files from %d registry entries" % (len(files), len(entries)))
     return 0
 

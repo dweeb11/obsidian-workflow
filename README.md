@@ -57,16 +57,22 @@ What is populated: `system/skills/` (eight workflow docs), `system/Templates/` (
 
 ## The scripts
 
-Six portable scripts under `system/scripts/`. All of them are Python — stock python 3.9, nothing to install, no shell — so they run the same on macOS, Linux, and Windows, and they locate the vault from their own path, so they work wherever you cloned to.
+Eight portable scripts under `system/scripts/`. All of them are Python — stock python 3.9, nothing to install, no shell — so they run the same on macOS, Linux, and Windows, and they locate the vault from their own path, so they work wherever you cloned to.
 
 | Script | What it does |
 |---|---|
 | `context-router.py <profile>` | Prints a task-shaped context bundle. Profiles: `default`, `daily`, `intake`, `synthesis`, `index`, `voice`, `operational`, `map`. |
 | `session-start-context.py` | Session-start loader; silent when there's nothing useful to say. |
-| `session-end-route.py` | Claude Code Stop hook. Blocks once at session end to prompt durable memory routing. |
+| `session-end-route.py` | Claude Code Stop hook. Blocks once at session end to prompt durable memory routing. Pass `--from-hook` so it reads session metrics from the hook's stdin. |
+| `generate-adapters.py` | Regenerates the per-tool skill adapters from `system/skills/registry.json`. Writes by default; deletes only under `--prune`. |
+| `sync-check.py` | Reports changes that haven't crossed between this vault and a paired counterpart. |
 | `daily-intelligence-pass.py` | Read-only. Flags tasks you keep carrying forward across daily notes. |
 | `breadcrumb-sweep.py` | Finds routing breadcrumbs left behind in notes. |
 | `lint-note-metadata.py` | Checks frontmatter consistency. |
+
+### Hooks on Windows
+
+`.claude/settings.json` wires three of these as Claude Code hooks, and the commands say `python3` — correct on macOS and Linux, but the python.org installer for Windows gives you `python` instead. There is no single spelling that works on both, so on Windows change `python3` to `python` in that file. Until you do, session-start context, drift detection, and closeout routing all fail silently before their scripts run.
 
 Tests, with no third-party runner (`python` on Windows, `python3` on macOS/Linux — the python.org installer doesn't give you `python3`):
 

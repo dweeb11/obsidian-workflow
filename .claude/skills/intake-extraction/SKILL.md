@@ -1,6 +1,6 @@
 ---
 name: intake-extraction
-description: Use this when processing raw items from `+/clippings/`.
+description: "Use this when processing raw items from `+/clippings/`."
 ---
 
 <!--

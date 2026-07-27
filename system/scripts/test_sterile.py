@@ -24,11 +24,15 @@ MANIFEST = VAULT_ROOT / "system" / "sync" / "manifest.json"
 # Scanned as text. Everything else (images, binaries) is skipped.
 TEXT_SUFFIXES = {".md", ".py", ".json", ".yml", ".yaml", ".mdc", ".sh", ".txt"}
 
-# This file necessarily contains the denylist tokens it searches for.
+# Only the manifest is exempt, because it necessarily holds the denylist
+# patterns themselves. Everything else is scanned.
+#
+# sync-check.py used to be exempt, dating from a sanitization-classifier that
+# was removed. It loads the patterns dynamically and contains none of them, so
+# the exemption bought nothing and left the single highest-risk file -- the one
+# that moves content between vaults -- unscanned.
 SELF_EXEMPT = {
     "system/sync/manifest.json",
-    "system/scripts/test_sterile.py",
-    "system/scripts/sync-check.py",
 }
 
 

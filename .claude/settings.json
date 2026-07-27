@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/system/scripts/session-end-route.py\""
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/system/scripts/session-end-route.py\" --from-hook"
           }
         ]
       }
