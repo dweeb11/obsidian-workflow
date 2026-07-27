@@ -64,6 +64,7 @@ STATUS_MISSING = "missing"
 STATUS_PINNED = "pinned"
 STATUS_UNTRACKED = "untracked"
 STATUS_PRIVATE_ONLY = "private-only"
+STATUS_MODE_DRIFT = "mode-drift"
 
 # A ported file that exists only in the private vault is a publication CANDIDATE,
 # not an obligation -- plenty of contracts are never meant to go public. It is
@@ -75,6 +76,7 @@ ACTIONABLE = {
     STATUS_LOCKSTEP_DRIFT,
     STATUS_MISSING,
     STATUS_UNTRACKED,
+    STATUS_MODE_DRIFT,
 }
 
 
@@ -88,6 +90,13 @@ def digest(path: Path) -> Optional[str]:
     if not path.exists() or path.is_dir():
         return None
     return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+
+
+def executable(path: Path) -> bool:
+    try:
+        return bool(path.stat().st_mode & 0o111)
+    except OSError:
+        return False
 
 
 def matches(rel: str, patterns: List[str]) -> bool:
@@ -186,6 +195,17 @@ def evaluate(
                             STATUS_LOCKSTEP_DRIFT,
                             rel,
                             "must be identical; run --pull to take the public copy",
+                        )
+                    )
+                elif executable(public_path) != executable(private_path):
+                    # Content-only hashing missed this. Hooks invoke these
+                    # scripts directly and rely on the shebang, so the exec bit
+                    # is part of the contract, not a cosmetic file attribute.
+                    results.append(
+                        (
+                            STATUS_MODE_DRIFT,
+                            rel,
+                            "same content, different exec bit; chmod +x the copy that lacks it",
                         )
                     )
                 else:

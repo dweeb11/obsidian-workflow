@@ -324,3 +324,35 @@ class TestHooksAreInterpreterAgnostic(unittest.TestCase):
                 out.stdout.startswith("100755"),
                 "%s is not mode 100755 in git: %s" % (rel, out.stdout.strip()),
             )
+
+
+class TestModeDriftIsDetected(unittest.TestCase):
+    """Hooks invoke scripts directly, so the exec bit is part of the lockstep
+    contract. Hashing content alone declared two copies identical while one of
+    them could not actually run."""
+
+    MANIFEST = {"layers": {"lockstep": {"patterns": ["system/scripts/tool.py"]}, "ported": {"patterns": []}}}
+
+    def _pair(self, tmp, pub_exec: bool, priv_exec: bool):
+        pub, priv = Path(tmp) / "pub", Path(tmp) / "priv"
+        for r in (pub, priv):
+            (r / "system" / "scripts").mkdir(parents=True)
+            (r / "system/scripts/tool.py").write_text("#!/usr/bin/env python3\n", encoding="utf-8")
+        (pub / "system/scripts/tool.py").chmod(0o755 if pub_exec else 0o644)
+        (priv / "system/scripts/tool.py").chmod(0o755 if priv_exec else 0o644)
+        state = {"this_vault_is": "public", "files": {}}
+        results = sc.evaluate(pub, priv, self.MANIFEST, state, "self")
+        return [s for s, p, _ in results if p == "system/scripts/tool.py"][0]
+
+    def test_same_content_different_exec_bit_is_flagged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(self._pair(tmp, True, False), sc.STATUS_MODE_DRIFT)
+
+    def test_matching_exec_bits_are_clean(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(self._pair(tmp, True, True), sc.STATUS_OK)
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(self._pair(tmp, False, False), sc.STATUS_OK)
+
+    def test_mode_drift_is_actionable(self):
+        self.assertIn(sc.STATUS_MODE_DRIFT, sc.ACTIONABLE)
