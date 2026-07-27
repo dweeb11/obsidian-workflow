@@ -17,3 +17,12 @@ __pycache__/
 
 # macOS
 .DS_Store
+
+# Generated per-tool skill adapters ARE committed, so a fresh clone works with no
+# install step. Negated explicitly because a global gitignore commonly excludes
+# .cursor/ -- without this the repo would silently ship Claude adapters only,
+# which is the exact single-tool drift the registry exists to prevent.
+!.cursor/
+!.cursor/rules/
+!.claude/skills/
+!.claude/settings.json

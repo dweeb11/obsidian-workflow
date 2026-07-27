@@ -1,0 +1,19 @@
+---
+description: Use this for maintenance passes that keep the vault legible without silently rewriting the owner's system.
+alwaysApply: false
+---
+
+<!--
+GENERATED FILE -- do not edit by hand.
+Source: system/skills/registry.json
+Regenerate: python3 system/scripts/generate-adapters.py
+-->
+
+# Vault Janitor Workflow
+
+Non-authoritative adapter -- no workflow logic lives here. Read the contract:
+
+- `system/skills/vault-janitor.md`
+
+Perform that contract exactly as written, then self-verify against its acceptance
+checklist before declaring the work done.

@@ -1,0 +1,19 @@
+---
+description: Use this when the portable AI operating system changes: folder conventions, skill behavior, adapter instructions, assistant preferences, or stale workflow truth.
+alwaysApply: false
+---
+
+<!--
+GENERATED FILE -- do not edit by hand.
+Source: system/skills/registry.json
+Regenerate: python3 system/scripts/generate-adapters.py
+-->
+
+# Map Maintenance Workflow
+
+Non-authoritative adapter -- no workflow logic lives here. Read the contract:
+
+- `system/skills/map-maintenance.md`
+
+Perform that contract exactly as written, then self-verify against its acceptance
+checklist before declaring the work done.

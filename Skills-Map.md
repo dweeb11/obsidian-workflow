@@ -24,18 +24,33 @@ Use this file as a registry, not a context dump. For common tasks, prefer `syste
 
 ## Workflow Registry
 
+The table below is generated from `system/skills/registry.json`. To change it, edit
+that file and run `python3 system/scripts/generate-adapters.py` — the same command
+regenerates every per-tool adapter, so the registry, this index, and the tool
+directories can never disagree.
+
+<!-- BEGIN GENERATED: skills-registry -->
+<!-- GENERATED FILE -- do not edit by hand. | Source: system/skills/registry.json | Regenerate: python3 system/scripts/generate-adapters.py -->
+
+| Skill | Trigger phrases | Context profile | Contract |
+|---|---|---|---|
+| Today (Setup) | "set up today's note", "start today's note", "run daily setup" | `daily` | [[system/skills/daily-capture|daily-capture]] |
+| Close Day (Close) | "close out today", "close the day", "process today's note", "run close-day" | `daily` | [[system/skills/daily-capture|daily-capture]] |
+| Intake Extraction Workflow | "process clippings", "process intake", "extract from clippings" | `intake` | [[system/skills/intake-extraction|intake-extraction]] |
+| Vault Synthesis Workflow | "write a synthesis note", "synthesize these notes", "make a durable note from this" | `synthesis` | [[system/skills/vault-synthesis|vault-synthesis]] |
+| Wiki Index Workflow | "update the folder index", "create an _index.md", "refresh the wiki index" | `index` | [[system/skills/wiki-index|wiki-index]] |
+| Rock Tumbler Workflow | "tumble this idea", "pressure-test this idea", "help me develop this thought" | `synthesis` | [[system/skills/rock-tumbler|rock-tumbler]] |
+| Vault Janitor Workflow | "clean up the vault", "run a hygiene pass", "vault maintenance" | `default` | [[system/skills/vault-janitor|vault-janitor]] |
+| Weekly Review Lens | "weekly review", "review my week", "second pass over the week" | `synthesis` | [[system/skills/weekly-review-lens|weekly-review-lens]] |
+| Map Maintenance Workflow | "update the maps", "the vault conventions changed", "fix stale workflow truth" | `map` | [[system/skills/map-maintenance|map-maintenance]] |
+<!-- END GENERATED: skills-registry -->
+
+Not workflows, but common enough to route here:
+
 | Trigger / Task | Minimal context profile | Detailed procedure |
 |---|---|---|
 | Small note edit, typo, narrow formatting fix | `default` | Target note only |
-| Daily Capture creation or cleanup | `daily` | [[system/skills/daily-capture\|Daily Capture / Close-Day Workflow]]; `system/Templates/Daily Note.md` |
-| Intake or clipping extraction | `intake` | [[system/skills/intake-extraction\|Intake Extraction Workflow]] |
-| Durable synthesis or audit note | `synthesis` | [[system/skills/vault-synthesis\|Vault Synthesis Workflow]] |
-| Folder `_index.md` | `index` | [[system/skills/wiki-index\|Wiki Index Workflow]] |
-| Pressure-test an idea without rewriting it | `synthesis` | [[system/skills/rock-tumbler\|Rock Tumbler Workflow]] |
-| Vault hygiene / cleanup pass | `default` | [[system/skills/vault-janitor\|Vault Janitor Workflow]] |
-| Second-pass review over a week | `synthesis` | [[system/skills/weekly-review-lens\|Weekly Review Lens]] |
 | Your voice, preferences, boundaries | `voice` | [[Me]] |
-| Maps or skill docs | `map` | [[system/skills/map-maintenance\|Map Maintenance Workflow]] |
 
 ## Global Rules for Vault Work
 

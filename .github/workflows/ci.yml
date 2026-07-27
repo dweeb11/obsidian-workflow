@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Weekly. The cross-vault sync check cannot run here (CI has no access to a
+    # private counterpart), but the intra-repo invariants below can rot on their
+    # own, and a repo nobody has pushed to in a month is exactly where that hides.
+    - cron: "0 14 * * 1"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # 3.9 is the floor the scripts layer targets; 3.12 catches deprecations.
+        python-version: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run the scripts-layer test suite
+        # No dependencies on purpose: this vault must work on a bare python3.
+        run: python -m unittest discover -s system/scripts -p "test_*.py" -v
+
+      - name: Adapters match the registry
+        # The load-bearing check. If someone hand-edited a SKILL.md to add
+        # workflow logic, the committed adapter no longer matches what the
+        # registry generates and this fails -- which is what keeps logic in the
+        # agent-agnostic contracts instead of accumulating in one tool's folder.
+        run: python system/scripts/generate-adapters.py --check
+
+      - name: Public template is sterile
+        run: python -m unittest system.scripts.test_sterile -v
+        continue-on-error: false
+
+      - name: Sync check degrades cleanly with no counterpart
+        # CI has no private vault. This asserts the script says so and exits 0
+        # rather than failing a fresh clone.
+        run: python system/scripts/sync-check.py --check

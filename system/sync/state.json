@@ -1,0 +1,80 @@
+{
+  "$comment": "Three-way reconciliation ledger for sync-check.py. Each entry records the hash of BOTH vaults' copy of a ported file at the moment it was last reconciled, which is what lets the checker tell WHICH side moved instead of just reporting that the two differ. Hashes only -- no content -- so this file stays sterile. Set counterpart_root here or via $VAULT_COUNTERPART_ROOT; it is intentionally unset in the public repo so a fresh clone never fails.",
+  "counterpart_root": null,
+  "files": {
+    "AGENTS.md": {
+      "private": "d0dda65bc73c8474",
+      "public": "a4add839c251c532"
+    },
+    "Skills-Map.md": {
+      "private": "fc7411bb40d5ae22",
+      "public": "a19f95af9c2f3c4b"
+    },
+    "Vault-Map.md": {
+      "private": "d6fbf6fc825fb9b8",
+      "public": "1484d1ff70960ff6"
+    },
+    "system/Templates/Daily Note.md": {
+      "private": "80d708f9b8046402",
+      "public": "1a70435280d6747a"
+    },
+    "system/Templates/Person CRM.md": {
+      "private": "0eee0a6528fb2d3d",
+      "public": "0eee0a6528fb2d3d"
+    },
+    "system/Templates/durable-topic-page.md": {
+      "private": "706916a4c0dae440",
+      "public": "0243374b964e4fa1"
+    },
+    "system/Templates/research-brief.md": {
+      "private": "348b9091c1681b4f",
+      "public": "1434effc88ca1618"
+    },
+    "system/Templates/source-reference-note.md": {
+      "private": "cf14eb087bb43e25",
+      "public": "9f50d0e9eaae63b7"
+    },
+    "system/Templates/synthesis-note.md": {
+      "private": "35df87ab3d51e1e1",
+      "public": "c09beb2610758a81"
+    },
+    "system/Templates/wiki-index.md": {
+      "private": "29b79ee9abc2a34d",
+      "public": "d2f3e26f55fe4206"
+    },
+    "system/skills/daily-capture.md": {
+      "private": "a600e024365c0ca4",
+      "public": "051ebfc8b1c82306"
+    },
+    "system/skills/intake-extraction.md": {
+      "private": "3048a3cc5c328041",
+      "public": "b8fde1263a2a3d4d"
+    },
+    "system/skills/map-maintenance.md": {
+      "private": "14a45eb4640b4e92",
+      "public": "1dcdb84debf2c7d5"
+    },
+    "system/skills/rock-tumbler.md": {
+      "private": "3012487072a5c5b9",
+      "public": "e110c0219998b3e3"
+    },
+    "system/skills/vault-janitor.md": {
+      "private": "b23154d5e563dbcb",
+      "public": "e662f9326008d4c9"
+    },
+    "system/skills/vault-synthesis.md": {
+      "private": "d48c1f34987df7ec",
+      "public": "05ab87ef7b8fcd6d"
+    },
+    "system/skills/weekly-review-lens.md": {
+      "private": "409934e7101f1ffa",
+      "public": "4b8c131952678650"
+    },
+    "system/skills/wiki-index.md": {
+      "private": "79a3872ebb89dec5",
+      "public": "4b8ac533988972b4"
+    }
+  },
+  "this_vault_is": "public",
+  "version": 1
+}

@@ -1,0 +1,129 @@
+{
+  "$comment": "Agent-agnostic skill registry. This file is the source of truth for WHICH workflows exist and how they are described. The workflow prose lives in the contract files under system/skills/. Every per-tool adapter (.claude/, .cursor/) and every generated index block is emitted from this file by system/scripts/generate-adapters.py -- never hand-edited. JSON rather than YAML/TOML so the scripts layer keeps running on a bare python3 (no PyYAML, and tomllib is 3.11+).",
+  "version": 1,
+  "entries": [
+    {
+      "slug": "today",
+      "title": "Today",
+      "description": "Use to set up or refresh today's daily note in the vault root. Seeds the morning briefing, carries forward unchecked tasks, pulls qualifying calendar meetings, and generates the day's interview questions.",
+      "contract": "system/skills/daily-capture.md",
+      "operation": "Setup",
+      "profile": "daily",
+      "also_read": [
+        "system/Templates/Daily Note.md"
+      ],
+      "triggers": [
+        "set up today's note",
+        "start today's note",
+        "run daily setup"
+      ]
+    },
+    {
+      "slug": "close-day",
+      "title": "Close Day",
+      "description": "Use when today's daily note in the vault root needs to be closed out -- processed, routed to permanent homes, and archived.",
+      "contract": "system/skills/daily-capture.md",
+      "operation": "Close",
+      "profile": "daily",
+      "also_read": [
+        "system/Templates/Daily Note.md"
+      ],
+      "triggers": [
+        "close out today",
+        "close the day",
+        "process today's note",
+        "run close-day"
+      ]
+    },
+    {
+      "slug": "intake-extraction",
+      "title": "Intake Extraction Workflow",
+      "description": "Use this when processing raw items from `+/clippings/`.",
+      "contract": "system/skills/intake-extraction.md",
+      "profile": "intake",
+      "triggers": [
+        "process clippings",
+        "process intake",
+        "extract from clippings"
+      ]
+    },
+    {
+      "slug": "vault-synthesis",
+      "title": "Vault Synthesis Workflow",
+      "description": "Use this when turning raw notes, generated briefs, research dumps, audits, stale project material, or high-signal AI conversations into a durable Obsidian synthesis note.",
+      "contract": "system/skills/vault-synthesis.md",
+      "profile": "synthesis",
+      "also_read": [
+        "system/Templates/synthesis-note.md"
+      ],
+      "triggers": [
+        "write a synthesis note",
+        "synthesize these notes",
+        "make a durable note from this"
+      ]
+    },
+    {
+      "slug": "wiki-index",
+      "title": "Wiki Index Workflow",
+      "description": "Use this when creating or updating `_index.md` pages for major vault folders.",
+      "contract": "system/skills/wiki-index.md",
+      "profile": "index",
+      "also_read": [
+        "system/Templates/wiki-index.md"
+      ],
+      "triggers": [
+        "update the folder index",
+        "create an _index.md",
+        "refresh the wiki index"
+      ]
+    },
+    {
+      "slug": "rock-tumbler",
+      "title": "Rock Tumbler Workflow",
+      "description": "Use this to find and develop interesting ideas without taking authorship away from the owner. Pressure-tests an idea instead of rewriting it.",
+      "contract": "system/skills/rock-tumbler.md",
+      "profile": "synthesis",
+      "triggers": [
+        "tumble this idea",
+        "pressure-test this idea",
+        "help me develop this thought"
+      ]
+    },
+    {
+      "slug": "vault-janitor",
+      "title": "Vault Janitor Workflow",
+      "description": "Use this for maintenance passes that keep the vault legible without silently rewriting the owner's system.",
+      "contract": "system/skills/vault-janitor.md",
+      "profile": "default",
+      "triggers": [
+        "clean up the vault",
+        "run a hygiene pass",
+        "vault maintenance"
+      ]
+    },
+    {
+      "slug": "weekly-review-lens",
+      "title": "Weekly Review Lens",
+      "description": "Use this when the owner wants an AI second pass over a week, not an AI-authored weekly digest.",
+      "contract": "system/skills/weekly-review-lens.md",
+      "profile": "synthesis",
+      "triggers": [
+        "weekly review",
+        "review my week",
+        "second pass over the week"
+      ]
+    },
+    {
+      "slug": "map-maintenance",
+      "title": "Map Maintenance Workflow",
+      "description": "Use this when the portable AI operating system changes: folder conventions, skill behavior, adapter instructions, assistant preferences, or stale workflow truth.",
+      "contract": "system/skills/map-maintenance.md",
+      "profile": "map",
+      "triggers": [
+        "update the maps",
+        "the vault conventions changed",
+        "fix stale workflow truth"
+      ]
+    }
+  ]
+}
