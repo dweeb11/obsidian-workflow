@@ -23,7 +23,6 @@ The active note lives at the vault root as `YYYY-MM-DD.md` and has these section
 | `## ToDo`             | The day's prioritized actions plus unchecked ToDo items carried forward from yesterday; older unresolved `#action/next` items can be added when they still matter | **Setup** + the owner during the day         |
 | `## Meetings`         | One subsection per real meeting/interview on today's calendar; bodies filled during the day                                                                       | Setup seeds headers; the owner fills bodies  |
 | `## Random Thoughts`  | Raw ideas, project sparks                                                                                                                                         | The owner, during the day                    |
-| `## End of Day Log`   | Optional journal; never forced, never auto-filled                                                                                                                 | The owner, optionally                        |
 
 Carry-forward tasks come in three buckets, all as ordinary unchecked tasks: yesterday's unchecked `## ToDo` items in today's `## ToDo`, older unresolved actions (`#action/next`) in `## ToDo` when still relevant, and idea seeds in `## Inbox / Capture` under `### Idea Seeds To Revisit`.
 
@@ -88,7 +87,6 @@ Filtered meetings feed two places: the `## Morning Briefing` "Today's meetings" 
 5. **Prime `## ToDo`** with the highest-signal actions first. Keep all carried-forward yesterday tasks visible as checkboxes; if the list is long, group a short `### Carry Forward` subsection under `## ToDo` rather than hiding overflow elsewhere.
 6. **Seed `## Meetings`** with one empty subsection per filtered calendar meeting (`### Meeting Name`); leave bodies blank.
 7. **Write the `## Morning Briefing`** (format below).
-8. Leave `## End of Day Log` empty.
 
 Do **not** auto-promote yesterday's Random Thoughts into tasks. Leave raw thoughts in the archive unless the owner explicitly asks to keep one warm.
 
@@ -207,7 +205,6 @@ Original daily capture preserved above. Routed/triaged items below so the raw no
 - [ ] `## ToDo` carries forward every unchecked task from yesterday's `## ToDo`, drops checked tasks, and includes any older unresolved `#action/next` items that still matter without duplicating yesterday's list.
 - [ ] `## Inbox / Capture` carries forward unchecked idea-seed tasks under `### Idea Seeds To Revisit` when any exist, and drops checked seeds.
 - [ ] `## Meetings` has one empty subsection per filtered calendar meeting/interview (or none if the calendar was empty).
-- [ ] `## End of Day Log` is empty.
 - [ ] No "keep pushing" prose; no events (only meetings/interviews) pulled from the calendar; no external system written.
 - [ ] Appended a line to [[system/logs/skill-usage-log|Skill Usage Log]] for this Setup run.
 

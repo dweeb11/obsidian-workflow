@@ -21,5 +21,3 @@ tags:
 ## Meetings
 
 ## Random Thoughts
-
-## End of Day Log
