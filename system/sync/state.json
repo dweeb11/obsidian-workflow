@@ -7,8 +7,8 @@
       "public": "a4add839c251c532"
     },
     "Skills-Map.md": {
-      "private": "fc7411bb40d5ae22",
-      "public": "a19f95af9c2f3c4b"
+      "private": "09b103877e96dd4b",
+      "public": "4176e5a31b669ee6"
     },
     "Vault-Map.md": {
       "private": "d6fbf6fc825fb9b8",
@@ -43,8 +43,8 @@
       "public": "d2f3e26f55fe4206"
     },
     "system/skills/daily-capture.md": {
-      "private": "a600e024365c0ca4",
-      "public": "051ebfc8b1c82306"
+      "private": "45428702bf7eb374",
+      "public": "096208542783361d"
     },
     "system/skills/intake-extraction.md": {
       "private": "3048a3cc5c328041",
@@ -53,6 +53,10 @@
     "system/skills/map-maintenance.md": {
       "private": "14a45eb4640b4e92",
       "public": "1dcdb84debf2c7d5"
+    },
+    "system/skills/registry.json": {
+      "private": "708d6704e8f4eb74",
+      "public": "b36e8bf1563f21ef"
     },
     "system/skills/rock-tumbler.md": {
       "private": "3012487072a5c5b9",
