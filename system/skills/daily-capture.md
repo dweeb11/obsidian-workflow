@@ -76,6 +76,9 @@ Filtered meetings feed two places: the `## Morning Briefing` "Today's meetings" 
    - Yesterday's archived daily note in `calendar/daily notes/YYYY/YYYY-MM-DD.md` — copy every unchecked task from its `## ToDo` section into today's `## ToDo`, excluding checked/completed items and obvious duplicates. If yesterday's root note is still unprocessed, use that root note as the source instead and surface that it still needs Close.
    - Last ~7 days of archived notes in `calendar/daily notes/YYYY/` — scan their routing appendices for unresolved `#action/next`, recurring names/projects, and open loops that were not already captured from yesterday's ToDo.
    - Recent meeting notes (`calendar/meetings/`) — open follow-ups, decisions awaiting action.
+   - **Decay pass** — run the read-only detector and keep its output for the briefing:
+     `python3 system/scripts/daily-intelligence-pass.py --vault <vault root> --days 14`.
+     It counts items that repeat across closed days' `### Carry Forward / Open Loops` (and unclosed days' `## ToDo` as a fallback) and is silent when nothing crosses the threshold. Silence is a valid result.
    - Any unprocessed root daily note besides today's — surface it (yesterday may not have been closed).
    - Today's calendar (see *Calendar input*).
 3. **Identify signals** from the gathered context: items to carry forward, threads to close, and **vault energy** — what the owner has been circling lately, named directly.
@@ -97,6 +100,9 @@ Do **not** auto-promote yesterday's Random Thoughts into tasks. Leave raw though
 
 **Carried forward:**
 - [Item] ← from [[Source Note]]
+
+**Decaying (carried 14+ days):**
+- <item> — carried N days since <first date>. One line each, from the decay pass; omit the group entirely when the pass is silent. These are the items to decide on, drop, or hand off — not to re-list tomorrow.
 
 **Today's meetings:**
 - [Time] — [Meeting/interview title] ([attendees if ≤5])

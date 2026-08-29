@@ -33,7 +33,7 @@ Keep `AGENTS.md`, `Vault-Map.md`, `Skills-Map.md`, `Me.md`, and related indexes 
 - Keep maps section-addressable: quickstart and registry first, detailed procedures in `system/skills/*.md`.
 - Remove or warn on stale instructions instead of leaving contradictory rules.
 - Search for old wording before declaring a convention updated.
-- Update `_index.md` pages when a new durable area needs to be discoverable.
+- Add an area `.base` file when a new durable ACE area appears; never an `_index.md`.
 
 ## Automation / Invocation
 
@@ -49,7 +49,7 @@ Eligible inputs:
 - map files
 - skill files
 - adapter files such as `AGENTS.md`
-- relevant `_index.md` pages
+- relevant area `.base` files
 
 Allowed automatic actions:
 
@@ -74,5 +74,4 @@ Before finishing:
 - confirm new skill links resolve by path/title search
 - ensure maps do not duplicate detailed procedures better kept in `system/skills/`
 - run `system/scripts/context-router.py default` and the task profile you changed
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

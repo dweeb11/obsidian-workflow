@@ -31,7 +31,7 @@ class ContextRouterTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertIn("Agent Quickstart", result.stdout)
         self.assertIn("Task Profile: default", result.stdout)
-        self.assertIn("commit from the vault root", result.stdout)
+        self.assertIn("Verify with evidence before calling work done", result.stdout)
         self.assertNotIn("Skills Map", result.stdout)
 
     def test_intake_profile_points_to_intake_skill(self) -> None:

@@ -20,7 +20,7 @@ Obsidian is the thinking, synthesis, source-trail, and re-entry layer. Actionabl
 2. `Vault-Map.md`
 3. `Skills-Map.md`
 4. `system/memory/tag-reference.md`
-5. The relevant area `_index.md`, if one exists
+5. The relevant area `.base` file, if one exists (read its filter; `rg -l '^role: canonical'` for orientation notes)
 
 ## Output Shape
 
@@ -107,5 +107,4 @@ Before finishing:
 - check source trails are preserved
 - check actionable follow-ups are surfaced in the note (not routed to an external system unless the owner asked)
 - check any changed index links resolve by path/title search
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

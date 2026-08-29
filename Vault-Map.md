@@ -19,7 +19,6 @@ Use this section as the default vault context. Read deeper sections only when th
 - Read [[Me]] only when the task involves the vault owner's voice, preferences, identity, priorities, or assistant behavior.
 - Read [[Skills-Map]] as a workflow index; read the linked `system/skills/*.md` note only for the workflow being run.
 - Prefer `system/scripts/context-router.py <profile>` for task-shaped context bundles.
-- After modifying vault files, commit from the vault root.
 
 ## What This Vault Is
 
@@ -37,7 +36,6 @@ It is not a code repository. There are no build steps or executables for the vau
 - Keep agent infrastructure in `system/` unless the owner explicitly asks otherwise.
 - Use the ACE target grammar for new notes: `+` for intake, `atlas/` for durable knowledge, `calendar/` for dated records, `efforts/` for active projects/responsibilities, and `system/` for automation infrastructure.
 - ACE folders are lowercase. Casing matters on case-sensitive filesystems and in wikilinks — do not capitalize them.
-- After modifying the vault, commit changes to git from the vault root.
 - Treat [[system/memory/tag-reference|Tag Reference]] as the live agent-facing tag vocabulary; update it after vault-wide tag scans or when durable namespaces are added.
 
 ## Core Conventions
@@ -99,9 +97,19 @@ This is the filing grammar for new notes.
 
 Important: `system/` is not an archive bucket and should not be collapsed into `+/`, `atlas/`, or `x/`. It contains live automation materials. Use `x/` only for passive support/archive material such as superseded rollups after synthesis.
 
-### Wiki index pages (`_index.md`)
+### Idea graveyards (`x/archive/<lane>/… graveyard.md`)
 
-Major folders may have a `_index.md` page as a human-friendly table of contents. Indexes are for orientation and navigation, not task control. Prefer a Memory Card, a `## Start Here` table, a `## Main Areas` table when useful, and Dataview blocks for navigation/maintenance lists. Actionable follow-ups discovered while indexing should remain vault-local candidates unless the owner explicitly asks for an external action. Use `system/Templates/wiki-index.md` as the starting template.
+A lane may keep a graveyard note in its `x/archive/` mirror. It holds ideas that were considered and deliberately killed — not ideas that are merely inactive, and not the lane's working scratchpad, which stays in `efforts/`.
+
+The graveyard exists so a resurfaced idea can be checked against its own history instead of re-argued from scratch. Each entry therefore records four things: what the idea was, where it came from, when it was killed, and why. Keep the reasoning in the owner's words; a graveyard that summarizes away the reasoning cannot do its job.
+
+Entries are append-only. When an idea returns and the old reasoning no longer holds, add a new dated line under the existing entry rather than editing or deleting the original verdict — the changed mind is itself part of the record.
+
+### Area bases (`_<Area Name>.base`)
+
+Every durable ACE area carries a base at its root — `atlas/AI/_AI.base`, `efforts/personal/writing/_Writing.base` — from the top level down. Individual project folders do not get one; orient from the project's `role: canonical` note instead. Obsidian evaluates a base's filters at read time, so it cannot go stale the way the `_index.md` pages it replaced did.
+
+Bases are for orientation and navigation, not task control. `Start here` (`role == "canonical"`) and `Untagged` (`file.tags.isEmpty()`) are mandatory views; everything between them is judgment. Actionable follow-ups discovered while working on a base have nowhere to live in a YAML file, so surface them in the reply as vault-local candidates unless the owner explicitly asks for an external action. See [[system/skills/wiki-index|Area Base Workflow]].
 
 Do not recreate a task cockpit in Obsidian; the vault should stay an orientation/context surface unless the owner explicitly asks for a task-control workflow.
 
@@ -152,12 +160,12 @@ Notes about external material: books, videos, articles, podcasts, meetings. Reus
 
 Raw source files that have already been extracted may be archived under `x/archive/intake/YYYY-MM/` after source trails are preserved. Delete only obvious junk, duplicates, or empty captures.
 
-Thin items saved because they may be bought, played, run, read, watched, or learned from later should become lightweight `status: interested` stubs when the domain is clear. Surface those stubs from the relevant folder `_index.md`.
+Thin items saved because they may be bought, played, run, read, watched, or learned from later should become lightweight `status: interested` stubs when the domain is clear. Surface those stubs from an `Interested` view on the relevant area's base.
 
 ### Concept
 Atomic notes for durable ideas, frameworks, patterns, principles, recurring terms. Concept notes go under `atlas/` in the matching topical subfolder.
 
-Durable homes listed in workflow docs are examples, not a closed taxonomy. If an intake pattern merits a new folder, create one only when it is a real durable domain, likely to hold several notes, and not cleanly covered by an existing ACE area. Add or update that folder's `_index.md` when the folder becomes a re-entry surface.
+Durable homes listed in workflow docs are examples, not a closed taxonomy. If an intake pattern merits a new folder, create one only when it is a real durable domain, likely to hold several notes, and not cleanly covered by an existing ACE area. Give that folder an `_<Area Name>.base` when it becomes a durable area.
 
 ### Person
 Notes about people. Canonical location is `atlas/people/`.
@@ -188,13 +196,4 @@ When an AI works in this vault:
 8. For new notes, use the ACE target grammar.
 9. Do not move or rename notes unless the task explicitly asks for reorganization.
 10. Do not edit `system/` casually; it is automation infrastructure.
-11. Commit changes after writing or modifying vault files.
 
-## Git Rule
-
-This vault is a git repo. After writing or modifying files:
-
-```bash
-git add <changed files>
-git commit -m "Concise description"
-```

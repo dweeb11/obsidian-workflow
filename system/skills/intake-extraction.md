@@ -12,7 +12,7 @@ Turn raw intake into durable notes, source trails, or clean discard decisions. T
 2. `Vault-Map.md`
 3. `Skills-Map.md`
 4. `system/memory/tag-reference.md`
-5. The relevant destination `_index.md`, if one exists
+5. The relevant destination area `.base` file, if one exists
 
 ## Classification
 
@@ -45,7 +45,7 @@ These destinations are examples, not a closed taxonomy. If a repeated pattern me
 - no existing ACE area fits cleanly
 - the folder can be named plainly
 
-When a new folder becomes a re-entry surface, create or update its `_index.md` and update `Vault-Map.md` if it becomes a durable convention.
+When a new folder becomes a durable ACE area, give it an `_<Area Name>.base` (see [[system/skills/wiki-index|Area Base Workflow]]) and update `Vault-Map.md` if it becomes a durable convention.
 
 ## Interest Stubs
 
@@ -86,11 +86,24 @@ Why saved: clipped as a possible future purchase/play/read/learn-from item. No d
 - whether it belongs in an active project
 ```
 
-Interest stubs must be surfaced somewhere visible. Put them under the `atlas/` topical folder that owns the domain, and give that folder's `_index.md` a Dataview `Interest Queue` listing every note with `status: interested` once there are enough stubs to need a queue.
+Interest stubs must be surfaced somewhere visible. Set `status: interested` and file the stub under the `atlas/` area that owns the domain, then add a `status == "interested"` view to that area's base once it has enough stubs to need one.
 
 Interest stubs are subject to the **stale filed-item cull** in [[weekly-review-lens|Weekly Review Lens]]: a stub left untouched (`status: interested`, no `last_reviewed`/`created` movement) for more than 8 weeks resurfaces for a keep/act/cull decision. Leave `last_reviewed` empty at creation; the cull pass sets it when the owner chooses "keep watching."
 
 If the domain is not obvious, classify as `ask` and leave it in intake.
+
+## Video Links
+
+A YouTube clipping's page text is a title and a description; the value is in the transcript. Before classifying a video item, pull the transcript (requires `yt-dlp`):
+
+```bash
+mkdir -p /tmp/yt && yt-dlp --write-auto-sub --sub-lang en --sub-format vtt --skip-download -o "/tmp/yt/%(id)s" "<URL>"
+yt-dlp --print title --skip-download "<URL>"
+cat /tmp/yt/*.en.vtt | sed '/^$/d; /^[0-9][0-9]:/d; /^WEBVTT/d; /^Kind:/d; /^Language:/d; /^NOTE/d; s/<[^>]*>//g' | awk '!seen[$0]++' | tr '\n' ' '
+rm -rf /tmp/yt
+```
+
+No captions → say so and classify from the page text as before. With a transcript, the extract/merge note carries: **Key points** (5–8 bullets — what the video actually says), **Actionable steps** (numbered, concrete; for tutorials, the real commands shown), and **Relevance** (1–2 sentences tying it to a current effort, or omit). Tools, repos and links the video names go in the source trail. Summarize; don't editorialize.
 
 ## Media
 
@@ -170,7 +183,6 @@ Before finishing:
 - created/updated notes preserve source trails
 - archived originals landed under `x/archive/intake/YYYY-MM/`
 - deleted items were obvious junk
-- new folders have an `_index.md` when they need one
+- new durable areas have an `_<Area Name>.base` when they need one
 - wikilinks and media embeds resolve by path/title search
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

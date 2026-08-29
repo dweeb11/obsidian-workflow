@@ -120,5 +120,4 @@ Before finishing:
 - source every major claim to a note/path
 - label uncertain inferences
 - keep action items out of external systems unless the owner approves routing
-- commit vault changes from the vault root if files were edited
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

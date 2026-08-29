@@ -38,7 +38,7 @@ directories can never disagree.
 | Close Day (Close) | "close out today", "close the day", "process today's note", "run close-day" | `daily` | [[system/skills/daily-capture\|daily-capture]] |
 | Intake Extraction Workflow | "process clippings", "process intake", "extract from clippings" | `intake` | [[system/skills/intake-extraction\|intake-extraction]] |
 | Vault Synthesis Workflow | "write a synthesis note", "synthesize these notes", "make a durable note from this" | `synthesis` | [[system/skills/vault-synthesis\|vault-synthesis]] |
-| Wiki Index Workflow | "update the folder index", "create an _index.md", "refresh the wiki index" | `index` | [[system/skills/wiki-index\|wiki-index]] |
+| Area Base Workflow | "make this area navigable", "create a base for this folder", "refresh the index" | `index` | [[system/skills/wiki-index\|wiki-index]] |
 | Rock Tumbler Workflow | "tumble this idea", "pressure-test this idea", "help me develop this thought" | `synthesis` | [[system/skills/rock-tumbler\|rock-tumbler]] |
 | Vault Janitor Workflow | "clean up the vault", "run a hygiene pass", "vault maintenance" | `default` | [[system/skills/vault-janitor\|vault-janitor]] |
 | Weekly Review Lens | "weekly review", "review my week", "second pass over the week" | `synthesis` | [[system/skills/weekly-review-lens\|weekly-review-lens]] |
@@ -62,7 +62,6 @@ Not workflows, but common enough to route here:
 - Ask before destructive edits, mass moves, or folder restructuring.
 - Read [[system/memory/tag-reference|Tag Reference]] before adding or normalizing tags; prefer existing namespaces and update the reference when a new namespace becomes durable.
 - Treat `Proposed Next Actions`, `Candidates`, and `Routed Follow-ups` in synthesis/audit notes as routing surfaces, not hidden task lists: preserve them as vault-local candidates unless the owner explicitly asks for an external action in the current conversation.
-- Always commit vault changes from the vault root after writing.
 - After a real run of any named workflow below (not a dry-run or ordinary chat), append one line to [[system/logs/skill-usage-log|Skill Usage Log]]: `YYYY-MM-DDTHH:MM:SS | **skill-slug** | one-line note`. This is the evidence trail for future usage audits — see each workflow's Verification step.
 
 ## Vault Synthesis Workflow
@@ -75,15 +74,15 @@ Not workflows, but common enough to route here:
 
 **Core rule:** Obsidian stores synthesis/context; external follow-through only happens when the owner explicitly asks in the current conversation.
 
-## Wiki Index Workflow
+## Area Base Workflow
 
-**Purpose:** Create or update `_index.md` pages as wiki-style navigation and re-entry surfaces, not dashboards.
+**Purpose:** Create or update per-area `.base` files as zero-maintenance navigation surfaces; `_index.md` pages are retired.
 
-**Workflow note:** [[system/skills/wiki-index|Wiki Index Workflow]]
+**Workflow note:** [[system/skills/wiki-index|Area Base Workflow]]
 
-**Template:** `system/Templates/wiki-index.md`
+**Template:** None — a base is a short YAML file; the contract carries the shape.
 
-**Core rule:** Use Start Here/Main Areas tables and Dataview for navigation. Preserve cleanup/action items as vault-local candidates unless the owner explicitly asks for an external action.
+**Core rule:** Every durable ACE area gets a base, from the top level down; individual project folders do not. `Start here` (`role: canonical`) and `Untagged` are mandatory views. Preserve cleanup/action items as vault-local candidates unless the owner explicitly asks for an external action.
 
 ## Daily Capture Workflow
 

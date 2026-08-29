@@ -1,5 +1,5 @@
 ---
-description: "Use this when creating or updating `_index.md` pages for major vault folders."
+description: "Use this when making a vault area navigable — creating or updating the area's `.base` file. Replaces the retired `_index.md` convention."
 alwaysApply: false
 ---
 
@@ -9,12 +9,11 @@ Source: system/skills/registry.json
 Regenerate: python3 system/scripts/generate-adapters.py
 -->
 
-# Wiki Index Workflow
+# Area Base Workflow
 
 Non-authoritative adapter -- no workflow logic lives here. Read the contract:
 
 - `system/skills/wiki-index.md`
-- `system/Templates/wiki-index.md`
 
 Perform that contract exactly as written, then self-verify against its acceptance
 checklist before declaring the work done.
