@@ -59,6 +59,16 @@ Prefer CLI for searching notes, checking tags, reading by wikilink, backlinks, u
 
 Use file tools for creating structured files, complex multi-section edits, and bulk writes.
 
+### Agent Attribution
+
+The owner's voice and agent voice must never blur. Any **new prose** an agent writes into the vault is marked so it is glanceable and greppable as agent-authored:
+
+- A block (paragraph, section, list of bullets) opens with a callout line: `> [!agent] <agent name> · YYYY-MM-DD`
+- A single bullet gets a trailing `— *agent: <agent name>*`
+- A whole new note declares `author: agent/<agent-name>` in frontmatter instead of a callout
+
+Unmarked: mechanical edits — moving or reformatting the owner's own words, link/frontmatter/typo fixes, close-day routing, Dataview or template maintenance. A rewrite that changes meaning counts as new prose and is marked. Never place the marker inside frontmatter, a Dataview block, or a task line's checkbox syntax.
+
 ## Session Lifecycle and Two-Surface Routing
 
 Session lifecycle behavior lives in portable scripts under `system/scripts/`. Tool adapters and skills must call those scripts instead of duplicating the behavior.

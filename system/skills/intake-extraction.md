@@ -92,6 +92,19 @@ Interest stubs are subject to the **stale filed-item cull** in [[weekly-review-l
 
 If the domain is not obvious, classify as `ask` and leave it in intake.
 
+## Video Links
+
+A YouTube clipping's page text is a title and a description; the value is in the transcript. Before classifying a video item, pull the transcript (requires `yt-dlp`):
+
+```bash
+mkdir -p /tmp/yt && yt-dlp --write-auto-sub --sub-lang en --sub-format vtt --skip-download -o "/tmp/yt/%(id)s" "<URL>"
+yt-dlp --print title --skip-download "<URL>"
+cat /tmp/yt/*.en.vtt | sed '/^$/d; /^[0-9][0-9]:/d; /^WEBVTT/d; /^Kind:/d; /^Language:/d; /^NOTE/d; s/<[^>]*>//g' | awk '!seen[$0]++' | tr '\n' ' '
+rm -rf /tmp/yt
+```
+
+No captions → say so and classify from the page text as before. With a transcript, the extract/merge note carries: **Key points** (5–8 bullets — what the video actually says), **Actionable steps** (numbered, concrete; for tutorials, the real commands shown), and **Relevance** (1–2 sentences tying it to a current effort, or omit). Tools, repos and links the video names go in the source trail. Summarize; don't editorialize.
+
 ## Media
 
 Durable notes may include media when it improves recognition or re-entry: screenshots, maps, diagrams, product images, generated visual aids, or UI captures.

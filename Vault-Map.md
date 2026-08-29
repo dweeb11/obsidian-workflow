@@ -99,6 +99,14 @@ This is the filing grammar for new notes.
 
 Important: `system/` is not an archive bucket and should not be collapsed into `+/`, `atlas/`, or `x/`. It contains live automation materials. Use `x/` only for passive support/archive material such as superseded rollups after synthesis.
 
+### Idea graveyards (`x/archive/<lane>/… graveyard.md`)
+
+A lane may keep a graveyard note in its `x/archive/` mirror. It holds ideas that were considered and deliberately killed — not ideas that are merely inactive, and not the lane's working scratchpad, which stays in `efforts/`.
+
+The graveyard exists so a resurfaced idea can be checked against its own history instead of re-argued from scratch. Each entry therefore records four things: what the idea was, where it came from, when it was killed, and why. Keep the reasoning in the owner's words; a graveyard that summarizes away the reasoning cannot do its job.
+
+Entries are append-only. When an idea returns and the old reasoning no longer holds, add a new dated line under the existing entry rather than editing or deleting the original verdict — the changed mind is itself part of the record.
+
 ### Wiki index pages (`_index.md`)
 
 Major folders may have a `_index.md` page as a human-friendly table of contents. Indexes are for orientation and navigation, not task control. Prefer a Memory Card, a `## Start Here` table, a `## Main Areas` table when useful, and Dataview blocks for navigation/maintenance lists. Actionable follow-ups discovered while indexing should remain vault-local candidates unless the owner explicitly asks for an external action. Use `system/Templates/wiki-index.md` as the starting template.
