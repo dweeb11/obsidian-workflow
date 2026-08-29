@@ -19,7 +19,6 @@ Use this section as the default vault context. Read deeper sections only when th
 - Read [[Me]] only when the task involves the vault owner's voice, preferences, identity, priorities, or assistant behavior.
 - Read [[Skills-Map]] as a workflow index; read the linked `system/skills/*.md` note only for the workflow being run.
 - Prefer `system/scripts/context-router.py <profile>` for task-shaped context bundles.
-- After modifying vault files, commit from the vault root.
 
 ## What This Vault Is
 
@@ -37,7 +36,6 @@ It is not a code repository. There are no build steps or executables for the vau
 - Keep agent infrastructure in `system/` unless the owner explicitly asks otherwise.
 - Use the ACE target grammar for new notes: `+` for intake, `atlas/` for durable knowledge, `calendar/` for dated records, `efforts/` for active projects/responsibilities, and `system/` for automation infrastructure.
 - ACE folders are lowercase. Casing matters on case-sensitive filesystems and in wikilinks — do not capitalize them.
-- After modifying the vault, commit changes to git from the vault root.
 - Treat [[system/memory/tag-reference|Tag Reference]] as the live agent-facing tag vocabulary; update it after vault-wide tag scans or when durable namespaces are added.
 
 ## Core Conventions
@@ -196,13 +194,4 @@ When an AI works in this vault:
 8. For new notes, use the ACE target grammar.
 9. Do not move or rename notes unless the task explicitly asks for reorganization.
 10. Do not edit `system/` casually; it is automation infrastructure.
-11. Commit changes after writing or modifying vault files.
 
-## Git Rule
-
-This vault is a git repo. After writing or modifying files:
-
-```bash
-git add <changed files>
-git commit -m "Concise description"
-```

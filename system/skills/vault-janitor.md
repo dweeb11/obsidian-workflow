@@ -95,5 +95,4 @@ Before finishing:
 - check changed wikilinks by search, including quoted/backticked wikilinks and backslash path separators
 - verify no Dataview blocks were flattened
 - verify no hidden task list was left in Obsidian
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

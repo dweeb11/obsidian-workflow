@@ -100,5 +100,4 @@ Before finishing:
 - produce no prose in the owner's voice
 - preserve links to source notes
 - do not invent obligations from interesting ideas
-- commit vault changes from the vault root if files were edited
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

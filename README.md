@@ -86,6 +86,16 @@ python -m unittest discover -s . -p "test_*.py"
 
 One thing worth saying in plain prose rather than leaving to the all-caps disclaimer in `LICENSE`: scripts like these can write to and delete files inside the vault you point them at. Worth reading one before running it against a vault you care about, and worth having a backup or a commit to get back to. As shipped, none of them touch your notes: three are read-only detectors, two only print, and `session-end-route.py` writes one thing — a timestamp file at `~/.claude/.session-route-last-block`, outside the vault, so it can't prompt you twice in ten minutes. But that's true of this version specifically.
 
+## Version control
+
+These workflows used to end with "commit vault changes from the vault root." That line is gone, and the absence is deliberate enough to be worth explaining.
+
+My own vault isn't in git anymore. It syncs through Obsidian Sync, and having an agent commit on top of that caused more trouble than it was worth. But that's my setup, not a recommendation — plenty of people keep a vault in git and are happy with it.
+
+So the contracts no longer take a position. They don't tell your agent to commit, and they don't tell it not to. If your vault *is* a git repo and you want a commit after agent edits, add the line back to `AGENTS.md`; it's one bullet, and the workflows will pick it up from there.
+
+What hasn't changed: something should be able to get you back. Git, Obsidian Sync, Time Machine, a folder copy — whatever you'll actually keep current. The scripts here can write to and delete files in the vault you point them at, and "undo" isn't something an agent reliably offers.
+
 ## Sending something back
 
 Open an issue: <https://github.com/dweeb11/obsidian-workflow/issues>. That's the whole channel — bugs, contradictions between docs, workflows you think are missing, or just telling me a part of it didn't make sense. I don't watch pull requests as a suggestion queue.

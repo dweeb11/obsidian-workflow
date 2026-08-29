@@ -103,5 +103,4 @@ Before finishing:
 - check obvious wikilinks work by searching paths/titles
 - verify no hidden task list was left in Obsidian
 - update parent index if the new index should be discoverable
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

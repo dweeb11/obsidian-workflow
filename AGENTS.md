@@ -18,7 +18,7 @@ Profiles include `default`, `daily`, `intake`, `synthesis`, `index`, `voice`, `o
 
 Always read before modifying vault structure or content:
 
-- [[Vault-Map]] `## Agent Quickstart` — compact vault layout, naming, Obsidian conventions, git rule
+- [[Vault-Map]] `## Agent Quickstart` — compact vault layout, naming, Obsidian conventions
 - Relevant [[Vault-Map]] sections only when the task touches that area
 
 Read when the task involves the vault owner's preferences, identity, voice, priorities, or assistant behavior:

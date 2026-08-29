@@ -26,7 +26,6 @@ FALLBACK_QUICKSTART = """## Agent Quickstart
 - Preserve wikilinks, Dataview blocks, frontmatter, tags, and local note style.
 - Search before creating notes.
 - Do not move, rename, or delete notes unless explicitly asked.
-- Commit vault changes from the vault root.
 """
 
 PROFILES: dict[str, str] = {
@@ -77,8 +76,7 @@ UNKNOWN_PROFILE = """- Unknown profile. Use `context-router.py help` for options
 CLOSEOUT = """
 ## Closeout
 
-- Verify with evidence before calling work done.
-- After modifying vault files, commit from the vault root."""
+- Verify with evidence before calling work done."""
 
 
 def print_section(path: Path, title: str) -> str:

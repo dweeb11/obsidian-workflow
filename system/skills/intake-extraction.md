@@ -185,5 +185,4 @@ Before finishing:
 - deleted items were obvious junk
 - new folders have an `_index.md` when they need one
 - wikilinks and media embeds resolve by path/title search
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

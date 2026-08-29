@@ -74,5 +74,4 @@ Before finishing:
 - confirm new skill links resolve by path/title search
 - ensure maps do not duplicate detailed procedures better kept in `system/skills/`
 - run `system/scripts/context-router.py default` and the task profile you changed
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

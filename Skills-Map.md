@@ -62,7 +62,6 @@ Not workflows, but common enough to route here:
 - Ask before destructive edits, mass moves, or folder restructuring.
 - Read [[system/memory/tag-reference|Tag Reference]] before adding or normalizing tags; prefer existing namespaces and update the reference when a new namespace becomes durable.
 - Treat `Proposed Next Actions`, `Candidates`, and `Routed Follow-ups` in synthesis/audit notes as routing surfaces, not hidden task lists: preserve them as vault-local candidates unless the owner explicitly asks for an external action in the current conversation.
-- Always commit vault changes from the vault root after writing.
 - After a real run of any named workflow below (not a dry-run or ordinary chat), append one line to [[system/logs/skill-usage-log|Skill Usage Log]]: `YYYY-MM-DDTHH:MM:SS | **skill-slug** | one-line note`. This is the evidence trail for future usage audits — see each workflow's Verification step.
 
 ## Vault Synthesis Workflow

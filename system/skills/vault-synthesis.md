@@ -107,5 +107,4 @@ Before finishing:
 - check source trails are preserved
 - check actionable follow-ups are surfaced in the note (not routed to an external system unless the owner asked)
 - check any changed index links resolve by path/title search
-- commit vault changes from the vault root
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]
