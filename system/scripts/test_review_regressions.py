@@ -6,7 +6,9 @@ Each test names the failure it locks down. Several of these were shipped as
 """
 from __future__ import annotations
 
+import contextlib
 import importlib.util
+import io
 import json
 import os
 import subprocess
@@ -40,6 +42,78 @@ def registry_fixture(tmp: Path) -> Path:
         encoding="utf-8",
     )
     return tmp
+
+
+class TestCheckIsUsableFromAHook(unittest.TestCase):
+    """--check printed on success, so a SessionStart hook would nag every session.
+
+    sync-check.py already had --quiet-when-clean; this is the sibling flag, and
+    the hook in .claude/settings.json depends on it staying silent when clean
+    and loud when not.
+    """
+
+    def test_quiet_when_clean_prints_nothing_and_exits_zero(self):
+        with tempfile.TemporaryDirectory() as t:
+            root = registry_fixture(Path(t))
+            gen.main(["--root", str(root)])
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                code = gen.main(["--root", str(root), "--check", "--quiet-when-clean"])
+            self.assertEqual(code, 0)
+            self.assertEqual(buf.getvalue().strip(), "")
+
+    def test_quiet_when_clean_still_reports_drift(self):
+        with tempfile.TemporaryDirectory() as t:
+            root = registry_fixture(Path(t))
+            gen.main(["--root", str(root)])
+            orphan = root / ".claude" / "skills" / "gone"
+            orphan.mkdir(parents=True)
+            (orphan / "SKILL.md").write_text(gen.GENERATED_MARKER + "\n", encoding="utf-8")
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                code = gen.main(["--root", str(root), "--check", "--quiet-when-clean"])
+            self.assertEqual(code, 1)
+            self.assertIn("ORPHANED", buf.getvalue())
+
+
+class TestPruneReclaimsTheSkillDirectory(unittest.TestCase):
+    """--prune unlinked SKILL.md but left an empty <slug>/ behind.
+
+    An empty directory still reads as a skill folder to anyone browsing
+    .claude/skills, and --check went green on it because it globs */SKILL.md.
+    Found while cleaning up an orphan the unslop removal left on 2026-08-22.
+    """
+
+    def test_prune_removes_the_emptied_slug_directory(self):
+        with tempfile.TemporaryDirectory() as t:
+            root = registry_fixture(Path(t))
+            gen.main(["--root", str(root)])
+
+            orphan = root / ".claude" / "skills" / "gone"
+            orphan.mkdir(parents=True)
+            (orphan / "SKILL.md").write_text(
+                "---\nname: gone\n---\n" + gen.GENERATED_MARKER + "\n", encoding="utf-8"
+            )
+
+            gen.main(["--root", str(root), "--prune"])
+
+            self.assertFalse((orphan / "SKILL.md").exists(), "orphan file survived --prune")
+            self.assertFalse(orphan.exists(), "--prune left an empty slug directory behind")
+
+    def test_prune_keeps_the_tool_base_directory(self):
+        """Reclaiming the slug dir must never walk up into .claude/skills itself."""
+        with tempfile.TemporaryDirectory() as t:
+            root = registry_fixture(Path(t))
+            gen.main(["--root", str(root)])
+
+            rules = root / ".cursor" / "rules"
+            stray = rules / "gone.mdc"
+            stray.write_text(gen.GENERATED_MARKER + "\n", encoding="utf-8")
+
+            gen.main(["--root", str(root), "--prune"])
+
+            self.assertFalse(stray.exists())
+            self.assertTrue(rules.is_dir(), "--prune removed a tool's base directory")
 
 
 class TestPartialEmitterDoesNotDelete(unittest.TestCase):
