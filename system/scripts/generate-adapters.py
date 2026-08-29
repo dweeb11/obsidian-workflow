@@ -45,6 +45,10 @@ GENERATED_BANNER = (
     "Regenerate: python3 system/scripts/generate-adapters.py"
 )
 
+# Where each tool's adapters live, and how to recognise one. Shared by orphan
+# detection and --prune so the two cannot disagree about what is reclaimable.
+TOOL_DIRS = ((".claude/skills", "*/SKILL.md"), (".cursor/rules", "*.mdc"))
+
 BEGIN_MARKER = "<!-- BEGIN GENERATED: skills-registry -->"
 END_MARKER = "<!-- END GENERATED: skills-registry -->"
 
@@ -299,7 +303,7 @@ def diff_against_disk(
             stale.append(rel)
 
     orphaned = []
-    for tool_dir, pattern in ((".claude/skills", "*/SKILL.md"), (".cursor/rules", "*.mdc")):
+    for tool_dir, pattern in TOOL_DIRS:
         base = root / tool_dir
         if not base.exists():
             continue
@@ -325,6 +329,11 @@ def main(argv: List[str] = None) -> int:
         "--check",
         action="store_true",
         help="Do not write. Exit 1 if any adapter is stale, missing, or orphaned.",
+    )
+    parser.add_argument(
+        "--quiet-when-clean",
+        action="store_true",
+        help="With --check, print nothing when the adapters are current (for hooks).",
     )
     parser.add_argument(
         "--emitter",
@@ -364,7 +373,8 @@ def main(argv: List[str] = None) -> int:
 
     if args.check:
         if not stale and not orphaned:
-            print("adapters are current (%d files, %d entries)" % (len(files), len(entries)))
+            if not args.quiet_when_clean:
+                print("adapters are current (%d files, %d entries)" % (len(files), len(entries)))
             return 0
         for rel in stale:
             print("STALE    %s" % rel)
@@ -386,7 +396,19 @@ def main(argv: List[str] = None) -> int:
             print("orphan (not removed; use --prune) %s" % rel)
     elif orphaned:
         for rel in orphaned:
-            (root / rel).unlink()
+            path = root / rel
+            path.unlink()
+            # A claude adapter is .claude/skills/<slug>/SKILL.md, so unlinking
+            # the file strands an empty <slug>/ that still reads as a skill
+            # directory. Reclaim it -- but never the tool's own base directory,
+            # and never a directory that still holds anything.
+            bases = {root / d for d, _ in TOOL_DIRS}
+            parent = path.parent
+            try:
+                if parent not in bases and not any(parent.iterdir()):
+                    parent.rmdir()
+            except OSError:
+                pass
             print("pruned %s" % rel)
 
     print("wrote %d adapter files from %d registry entries" % (len(files), len(entries)))
