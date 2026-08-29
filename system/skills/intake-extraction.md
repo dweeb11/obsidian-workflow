@@ -12,7 +12,7 @@ Turn raw intake into durable notes, source trails, or clean discard decisions. T
 2. `Vault-Map.md`
 3. `Skills-Map.md`
 4. `system/memory/tag-reference.md`
-5. The relevant destination `_index.md`, if one exists
+5. The relevant destination area `.base` file, if one exists
 
 ## Classification
 
@@ -45,7 +45,7 @@ These destinations are examples, not a closed taxonomy. If a repeated pattern me
 - no existing ACE area fits cleanly
 - the folder can be named plainly
 
-When a new folder becomes a re-entry surface, create or update its `_index.md` and update `Vault-Map.md` if it becomes a durable convention.
+When a new folder becomes a durable ACE area, give it an `_<Area Name>.base` (see [[system/skills/wiki-index|Area Base Workflow]]) and update `Vault-Map.md` if it becomes a durable convention.
 
 ## Interest Stubs
 
@@ -86,7 +86,7 @@ Why saved: clipped as a possible future purchase/play/read/learn-from item. No d
 - whether it belongs in an active project
 ```
 
-Interest stubs must be surfaced somewhere visible. Put them under the `atlas/` topical folder that owns the domain, and give that folder's `_index.md` a Dataview `Interest Queue` listing every note with `status: interested` once there are enough stubs to need a queue.
+Interest stubs must be surfaced somewhere visible. Set `status: interested` and file the stub under the `atlas/` area that owns the domain, then add a `status == "interested"` view to that area's base once it has enough stubs to need one.
 
 Interest stubs are subject to the **stale filed-item cull** in [[weekly-review-lens|Weekly Review Lens]]: a stub left untouched (`status: interested`, no `last_reviewed`/`created` movement) for more than 8 weeks resurfaces for a keep/act/cull decision. Leave `last_reviewed` empty at creation; the cull pass sets it when the owner chooses "keep watching."
 
@@ -183,6 +183,6 @@ Before finishing:
 - created/updated notes preserve source trails
 - archived originals landed under `x/archive/intake/YYYY-MM/`
 - deleted items were obvious junk
-- new folders have an `_index.md` when they need one
+- new durable areas have an `_<Area Name>.base` when they need one
 - wikilinks and media embeds resolve by path/title search
 - append a line to [[system/logs/skill-usage-log|Skill Usage Log]]

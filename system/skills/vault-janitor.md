@@ -12,7 +12,7 @@ Find and fix small hygiene problems: stale assumptions, broken links, duplicate 
 2. `Vault-Map.md`
 3. `Skills-Map.md`
 4. `system/memory/tag-reference.md`
-5. Any relevant area `_index.md`
+5. Any relevant area `.base` file
 
 ## Scope
 
@@ -22,7 +22,7 @@ Good janitor targets:
 - broken or unresolved wikilinks
 - duplicate source-only notes
 - missing currentness warnings
-- stale `_index.md` pointers
+- stale `role: canonical` marks, and notes in an area base's `Untagged` view
 - tag namespace drift
 - processed intake originals that were not archived
 - operational reports that should be filed under `system/reports/`

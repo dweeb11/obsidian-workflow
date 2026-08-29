@@ -40,7 +40,7 @@ Examples:
 - Process a daily note → read [[system/skills/daily-capture|Daily Capture / Close-Day Workflow]] and `system/Templates/Daily Note.md`; `context-router.py daily` is only an optional shortcut
 - Process intake or clippings → `context-router.py intake`, then read `system/skills/intake-extraction.md`
 - Create/update a synthesis note or audit → `context-router.py synthesis`, then read `system/skills/vault-synthesis.md`
-- Create/update a folder `_index.md` → `context-router.py index`, then read `system/skills/wiki-index.md`
+- Make an area navigable (its `.base` file) → `context-router.py index`, then read `system/skills/wiki-index.md`
 - Update the maps themselves → `context-router.py map`, then read the affected maps/skills
 
 ## What This Repository Is
@@ -76,7 +76,7 @@ Session lifecycle behavior lives in portable scripts under `system/scripts/`. To
 At session start, load context from whichever surfaces apply:
 
 - **Project state:** if the current repo has `PROJECT_STATE.md`, read it before digging through git history or project docs.
-- **Vault:** when working in this vault, consult this file, `system/scripts/context-router.py default`, and any relevant `_index.md` or effort dashboard.
+- **Vault:** when working in this vault, consult this file, `system/scripts/context-router.py default`, and any relevant area `.base` file (read its filter for scope, `rg -l '^role: canonical'` for what to read first) or effort dashboard.
 
 The canonical implementation is `system/scripts/session-start-context.py`.
 

@@ -9,7 +9,7 @@ Scope: `{{Scope}}`
 > **Last touched:** {{Date}}
 
 > [!warning] Currentness
-> Keep this only when relevant: generated briefs can go stale quickly. Start from the current `_index.md` or design note before acting on old recommendations.
+> Keep this only when relevant: generated briefs can go stale quickly. Start from the area base's `Start here` view (`role: canonical` notes) or design note before acting on old recommendations.
 
 ## What This Area Is
 

@@ -64,17 +64,14 @@
     },
     {
       "slug": "wiki-index",
-      "title": "Wiki Index Workflow",
-      "description": "Use this when creating or updating `_index.md` pages for major vault folders.",
+      "title": "Area Base Workflow",
+      "description": "Use this when making a vault area navigable — creating or updating the area's `.base` file. Replaces the retired `_index.md` convention.",
       "contract": "system/skills/wiki-index.md",
       "profile": "index",
-      "also_read": [
-        "system/Templates/wiki-index.md"
-      ],
       "triggers": [
-        "update the folder index",
-        "create an _index.md",
-        "refresh the wiki index"
+        "make this area navigable",
+        "create a base for this folder",
+        "refresh the index"
       ]
     },
     {

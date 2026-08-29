@@ -41,9 +41,9 @@ PROFILES: dict[str, str] = {
     "synthesis": """- Read: `AGENTS.md`, `Vault-Map.md` Agent Quickstart and Note Types, `Skills-Map.md` Vault Synthesis entry.
 - Then read: `system/skills/vault-synthesis.md`.
 - Use `system/Templates/synthesis-note.md` when creating a synthesis note.""",
-    "index": """- Read: `AGENTS.md`, `Vault-Map.md` Agent Quickstart and Wiki index pages section, `Skills-Map.md` Wiki Index entry.
+    "index": """- Read: `AGENTS.md`, `Vault-Map.md` Agent Quickstart and Area bases section, `Skills-Map.md` Area Base entry.
 - Then read: `system/skills/wiki-index.md`.
-- Use `system/Templates/wiki-index.md` when creating an `_index.md`.""",
+- Area navigation is an `_<Area Name>.base` file at the area root. Do not create `_index.md`; that convention is retired.""",
     "voice": """- Read: `AGENTS.md`, `Vault-Map.md` Agent Quickstart, and `Me.md`.
 - Use this profile for the vault owner's voice, preferences, boundaries, assistant behavior, and outward-facing drafts.""",
     "operational": """- Read: `AGENTS.md` and `Vault-Map.md` Agent Quickstart.

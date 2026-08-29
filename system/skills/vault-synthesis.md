@@ -20,7 +20,7 @@ Obsidian is the thinking, synthesis, source-trail, and re-entry layer. Actionabl
 2. `Vault-Map.md`
 3. `Skills-Map.md`
 4. `system/memory/tag-reference.md`
-5. The relevant area `_index.md`, if one exists
+5. The relevant area `.base` file, if one exists (read its filter; `rg -l '^role: canonical'` for orientation notes)
 
 ## Output Shape
 

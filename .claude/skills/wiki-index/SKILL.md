@@ -1,6 +1,6 @@
 ---
 name: wiki-index
-description: "Use this when creating or updating `_index.md` pages for major vault folders."
+description: "Use this when making a vault area navigable — creating or updating the area's `.base` file. Replaces the retired `_index.md` convention."
 ---
 
 <!--
@@ -9,13 +9,12 @@ Source: system/skills/registry.json
 Regenerate: python3 system/scripts/generate-adapters.py
 -->
 
-# Wiki Index Workflow
+# Area Base Workflow
 
 This file is a **non-authoritative adapter**. It contains no workflow logic. The
 authoritative, agent-agnostic contract lives in the vault and supersedes it:
 
 - `system/skills/wiki-index.md`
-- `system/Templates/wiki-index.md`
 
 ## What to do
 
