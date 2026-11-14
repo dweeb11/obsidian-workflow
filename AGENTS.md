@@ -1,3 +1,5 @@
+Before starting, read ~/projects/dev-home/standards.md (rules for every project). Library devlog for this project: devlog/obsidian-workflow/.
+
 # AGENTS.md
 
 This is the portable agent contract for this Obsidian vault. Tool-specific adapter files should stay thin and point here instead of duplicating vault rules. The deeper source of truth lives in the map files.
