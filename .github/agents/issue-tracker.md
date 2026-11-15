@@ -21,11 +21,11 @@ Create a GitHub issue.
 
 Run `gh issue view <n> --comments`.
 
-## Wayfinding operations
+## Map and child issues
 
-Used by `/wayfinder`. The **map** is a single issue with **child** issues as tickets. Sub-issues and issue dependencies are both enabled on this repo and verified working — use the native relationships, not body conventions.
+A larger piece of work can be tracked as a **map**: a single issue with **child** issues as tickets. Sub-issues and issue dependencies are both enabled on this repo and verified working — use the native relationships, not body conventions.
 
-The live map is [#1 — Map: Extract a shareable vault-workflow skeleton](https://github.com/dweeb11/obsidian-workflow/issues/1).
+The first map was [#1 — Map: Extract a shareable vault-workflow skeleton](https://github.com/dweeb11/obsidian-workflow/issues/1) (closed).
 
 ### Map
 

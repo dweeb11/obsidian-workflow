@@ -107,13 +107,13 @@ A base is YAML, not a note. It cannot carry the Memory Card, `Routed Follow-ups`
 - **Durable area context** belongs in the area's canonical note, not the base.
 - **Moves, deletes, archives** — propose; never perform without the owner's explicit approval.
 
-Do not create or update external task-system records (Linear or otherwise) unless the owner explicitly asks in the current conversation.
+Do not create or update records in your task tracker unless the owner explicitly asks in the current conversation.
 
 ## Do not
 
 - Do not create `_index.md` pages. The convention and its template were retired 2026-08-27; recreating one silently reintroduces the staleness this replaced.
 - Do not hand-maintain a note list in Markdown alongside a base. If the list is worth having, it is a view.
-- Do not duplicate Linear task state, or turn a base into a cockpit or a task rollup.
+- Do not duplicate your task tracker's state, or turn a base into a cockpit or a task rollup.
 - Do not add a Dataview block to do a job a view already does.
 
 ## Automation / Invocation
