@@ -14,8 +14,6 @@ from typing import Iterable
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 VISIBLE_LAST_TOUCHED_RE = re.compile(r"\*\*Last touched:\*\*\s*([0-9]{4}-[0-9]{2}-[0-9]{2}|YYYY-MM-DD)")
 FENCED_BLOCK_RE = re.compile(r"```.*?```", re.DOTALL)
-LINEAR_ISSUE_RE = re.compile(r"^[A-Z][A-Z0-9]+-\d+$")
-LINEAR_URL_RE = re.compile(r"linear\.app/.+/issue/([A-Z][A-Z0-9]+-\d+)(?:/|$)")
 SKIP_DIRS = {".git", ".obsidian", ".trash", "node_modules", ".venv", "__pycache__"}
 
 
@@ -48,14 +46,6 @@ def parse_frontmatter(text: str) -> dict[str, str]:
     return fields
 
 
-def valid_linear_value(value: str) -> bool:
-    if not value:
-        return False
-    if LINEAR_ISSUE_RE.match(value):
-        return True
-    return bool(LINEAR_URL_RE.search(value))
-
-
 def lint_file(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     fields = parse_frontmatter(text)
@@ -77,10 +67,6 @@ def lint_file(path: Path) -> list[str]:
                 f"frontmatter={frontmatter_date!r}, visible={', '.join(sorted(set(mismatches)))}"
             )
 
-    linear_issue = fields.get("linear_issue")
-    if linear_issue and not valid_linear_value(linear_issue):
-        messages.append(f"malformed linear_issue: {linear_issue!r}")
-
     return messages
 
 
@@ -89,7 +75,7 @@ def main() -> int:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
     parser = argparse.ArgumentParser(
-        description="Report Obsidian last_touched and linear_issue metadata problems."
+        description="Report Obsidian last_touched metadata problems."
     )
     parser.add_argument(
         "paths",
